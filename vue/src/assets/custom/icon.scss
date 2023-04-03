@@ -1,0 +1,37 @@
+.icon {
+    width: 1.0rem;
+    height: 1.0rem;
+
+    &.xs {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+
+    &.sm {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &.md {
+        width: 1.0rem;
+        height: 1.0rem;
+    }
+
+    &.lg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    &.xl {
+        width: 2rem;
+        height: 2rem;
+    }
+    &.\2xl {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+
+
+

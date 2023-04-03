@@ -1,0 +1,12 @@
+.cm-editor {
+    
+    overflow: hidden;
+
+    @apply border;
+    @apply border-gray-300;
+    @apply rounded-md;
+
+    &.cm-focused {
+        outline: none;
+    }
+}

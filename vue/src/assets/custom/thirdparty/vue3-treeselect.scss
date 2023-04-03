@@ -1,0 +1,164 @@
+.vue-treeselect {
+    .vue-treeselect__control {
+        height: 38px !important;
+    }
+    .vue-treeselect__input {
+        &:focus {
+            box-shadow: none;
+        }
+    }
+    .vue-treeselect__multi-value {
+        margin: 0px;
+    }
+
+    .vue-treeselect__multi-value-item,
+    .vue-treeselect__value-remove {
+        @apply bg-indigo-600;
+        @apply text-white;
+        @apply hover:text-white;
+        @apply hover:bg-indigo-700;
+        @apply focus:ring-indigo-500;
+        @apply border-none;
+    }
+
+    .vue-treeselect__multi-value-item:hover {
+        .vue-treeselect__value-remove {
+            @apply text-white;
+        }
+    }
+
+    &.vue-treeselect--single {
+        .vue-treeselect__input {
+            @apply p-0;
+        }
+    }
+
+    .vue-treeselect__indent-level-0 {
+        .vue-treeselect__option {
+            @apply py-0;
+            .vue-treeselect__label-container {
+                @apply py-1.5;
+            }
+        }
+    }
+    .vue-treeselect__option {
+        @apply py-0.5;
+        @apply hover:bg-indigo-500;
+
+        .vue-treeselect__label {
+            @apply text-gray-900;
+            @apply text-sm;
+        }
+
+        &:hover {
+            .vue-treeselect__label {
+                @apply text-white;
+            }
+        }
+    }
+
+    .vue-treeselect__checkbox--checked,
+    .vue-treeselect__checkbox--indeterminate {
+        @apply border-gray-300;
+        @apply bg-indigo-500;
+        @apply border-indigo-500;
+    }
+}
+
+//
+//
+.vue-treeselect {
+    .vue-treeselect__option:hover .vue-treeselect__option-arrow {
+        color: #ffffff !important;
+    }
+}
+
+//
+.vue-treeselect__multi-value,
+.vue-treeselect__value-container {
+    vertical-align: auto;
+}
+
+////
+.vue-treeselect--open-above .vue-treeselect__menu {
+    margin-bottom: -3px;
+}
+
+.vue-treeselect__menu {
+    padding: 0;
+}
+
+///////fix////////
+
+.vue-treeselect {
+    .vue-treeselect__checkbox--disabled,
+    .vue-treeselect__label-container:hover .vue-treeselect__checkbox--disabled {
+        border-color: #e0e0e0;
+        background-color: #f7f7f7;
+    }
+
+    .vue-treeselect__option.vue-treeselect__option--disabled {
+        .vue-treeselect__label {
+            color: #a0a0a0;
+        }
+    }
+}
+
+.vue-treeselect {
+    .vue-treeselect__option.vue-treeselect__option--disabled.vue-treeselect__option--highlight:hover,
+    .vue-treeselect__option.vue-treeselect__option--disabled.vue-treeselect__option--selected:hover {
+        background-color: #f7f7f7;
+    }
+}
+
+.vue-treeselect .vue-treeselect__option--highlight {
+    @apply bg-indigo-500;
+    .vue-treeselect__label {
+        @apply text-white;
+        @apply font-normal;
+    }
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected {
+    @apply bg-white;
+    .vue-treeselect__label {
+        @apply text-gray-900;
+        @apply font-normal;
+    }
+}
+
+.vue-treeselect--focused:not(.vue-treeselect--open) .vue-treeselect__control {
+    @apply border-indigo-500;
+}
+
+.vue-treeselect:not(.vue-treeselect--disabled)
+    .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-disabled):hover
+    .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new)
+    .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new):hover,
+.vue-treeselect__multi-value-item {
+    @apply text-indigo-500;
+}
+
+.vue-treeselect__value-remove {
+    @apply text-indigo-500;
+}
+
+.vue-treeselect__label-container:hover .vue-treeselect__checkbox--unchecked {
+    @apply border-gray-200;
+}
+
+.vue-treeselect__checkbox--checked,
+.vue-treeselect__checkbox--indeterminate,
+.vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked,
+.vue-treeselect__label-container:hover .vue-treeselect__checkbox--indeterminate {
+    @apply border-indigo-500;
+    @apply bg-indigo-500;
+}
+
+.vue-treeselect__error-tip .vue-treeselect__retry {
+    @apply text-indigo-500;
+}
+
+.vue-treeselect__icon-loader:before {
+    @apply bg-indigo-500;
+}

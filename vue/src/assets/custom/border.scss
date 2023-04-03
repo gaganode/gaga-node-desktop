@@ -1,0 +1,124 @@
+.card {
+    @apply border-gray-200;
+    @apply bg-white;
+    @apply border;
+
+    &.click {
+        @apply focus-within:ring-2;
+        @apply focus-within:ring-indigo-500;
+        @apply focus-within:ring-offset-2;
+        @apply hover:border-gray-400;
+        @apply cursor-pointer;
+    }
+
+    &.auto-fit {
+        @apply px-3;
+        @apply py-2;
+        @apply md:px-4;
+        @apply md:py-3;
+    }
+}
+
+.focus-within-border\:primary {
+    @apply focus-within:z-10;
+    @apply focus-within:border-indigo-600;
+    @apply focus-within:ring-1;
+    @apply focus-within:ring-indigo-600;
+}
+
+.card-success {
+    @apply bg-green-100;
+    @apply text-green-800;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-green-200;
+    svg {
+        @apply text-green-400;
+    }
+}
+
+.card-info {
+    @apply bg-sky-100;
+    @apply text-sky-700;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-sky-200;
+    svg {
+        @apply text-blue-400;
+    }
+}
+
+.card-warning {
+    @apply bg-yellow-100;
+    @apply text-yellow-700;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-yellow-300;
+    svg {
+        @apply text-yellow-400;
+    }
+}
+
+.card-err {
+    @apply bg-rose-100;
+    @apply text-rose-700;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-rose-200;
+    svg {
+        @apply text-rose-700;
+    }
+}
+
+.card-primary {
+    @apply bg-indigo-500;
+    @apply text-white;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-indigo-500;
+    svg {
+        @apply text-white;
+    }
+}
+
+.card-purple {
+    @apply bg-purple-100;
+    @apply text-purple-700;
+    @apply ring-4;
+    @apply ring-white;
+    @apply border;
+    @apply border-purple-200;
+    svg {
+        @apply text-purple-700;
+    }
+}
+
+.card,
+.card-primary,
+.card-err,
+.card-info,
+.card-purple,
+.card-success,
+.card-warning {
+    @apply rounded;
+}
+
+.card-new {
+    @apply rounded-md;
+    @apply border-2;
+    @apply border-dashed;
+    @apply border-gray-300;
+
+    &:hover {
+        @apply hover:border-gray-400;
+        @apply focus:outline-none;
+        @apply focus:ring-2;
+        @apply focus:ring-indigo-500;
+        @apply focus:ring-offset-2;
+    }
+}

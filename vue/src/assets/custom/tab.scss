@@ -1,0 +1,68 @@
+.tab {
+    @apply md:-mb-px;
+    @apply md:space-x-8;
+    @apply border-b;
+    @apply border-gray-200;
+
+    a {
+        @apply inline-block;
+        @apply items-center;
+        @apply py-4;
+        @apply pr-4;
+        @apply pl-1;
+        @apply md:pl-2;
+        @apply border-b-2;
+        @apply font-medium;
+        @apply text-sm;
+        min-width: 100px;
+
+        &.active {
+            @apply border-indigo-500;
+            @apply text-indigo-600;
+        }
+
+        &.inactive {
+            @apply border-transparent;
+            @apply text-gray-500;
+            @apply hover:text-gray-700;
+            @apply hover:border-gray-200;
+        }
+
+        svg {
+            @apply inline-block;
+            @apply -ml-0.5;
+            @apply mr-2;
+            @apply h-5;
+            @apply w-5;
+
+            &.active {
+                @apply text-indigo-500;
+            }
+
+            &.inactive {
+                @apply text-gray-400;
+                @apply group-hover:text-gray-500;
+            }
+        }
+
+        span {
+            @apply ml-3;
+            @apply py-0.5;
+            @apply px-2.5;
+            @apply rounded-full;
+            @apply text-xs;
+            @apply font-medium;
+            @apply md:inline-block;
+
+            &.active {
+                @apply bg-indigo-100;
+                @apply text-indigo-600;
+            }
+
+            &.inactive {
+                @apply bg-gray-100;
+                @apply text-gray-900;
+            }
+        }
+    }
+}

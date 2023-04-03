@@ -1,0 +1,382 @@
+.btn-primary {
+    @apply bg-indigo-600;
+    @apply text-white;
+    @apply hover:bg-indigo-700;
+    @apply focus:ring-indigo-500;
+
+    .prefix-icon,
+    .icon,
+    .suffix-icon {
+        &.dark {
+            @apply text-indigo-500;
+        }
+    }
+
+    &:hover {
+        .prefix-icon.dark,
+        .icon.dark,
+        .suffix-icon.dark {
+            @apply text-indigo-400;
+        }
+    }
+}
+
+.btn-secondary {
+    @apply border-gray-300;
+    @apply bg-white;
+    @apply hover:bg-gray-50;
+    @apply text-gray-700;
+    @apply hover:bg-gray-50;
+    @apply focus:ring-indigo-500;
+
+    .prefix-icon,
+    .icon,
+    .suffix-icon {
+        &.dark {
+            @apply text-gray-300;
+        }
+    }
+
+    &:hover {
+        .prefix-icon.dark,
+        .icon.dark,
+        .suffix-icon.dark {
+            @apply text-gray-500;
+        }
+    }
+}
+
+.btn-info {
+    @apply bg-indigo-100;
+    @apply text-indigo-700;
+    @apply border-indigo-200;
+    @apply hover:bg-indigo-200;
+    @apply focus:ring-indigo-500;
+}
+
+.btn-success {
+    @apply hover:bg-green-200;
+    @apply focus:ring-green-500;
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+
+    &:hover {
+        color: #fff;
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .prefix-icon,
+    .icon,
+    .suffix-icon {
+        &.dark {
+            color: #50c169;
+        }
+    }
+
+    &:hover {
+        .prefix-icon.dark,
+        .icon.dark,
+        .suffix-icon.dark {
+            color: #82d294;
+        }
+    }
+}
+
+.btn-warning {
+    @apply focus:ring-yellow-500;
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+
+    &:hover {
+        color: #212529;
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+
+    .prefix-icon,
+    .icon,
+    .suffix-icon {
+        &.dark {
+            color: #ffdd78;
+        }
+    }
+
+    &:hover {
+        .prefix-icon.dark,
+        .icon.dark,
+        .suffix-icon.dark {
+            color: #977100;
+        }
+    }
+
+}
+
+.btn-err {
+    @apply bg-red-600;
+    @apply text-white;
+    @apply hover:bg-red-700;
+    @apply focus:ring-red-500;
+    @apply border-red-600;
+
+    .prefix-icon,
+    .icon,
+    .suffix-icon {
+        &.dark {
+            @apply text-red-400;
+        }
+    }
+
+    &:hover {
+        .prefix-icon.dark,
+        .icon.dark,
+        .suffix-icon.dark {
+            @apply text-red-300;
+        }
+    }
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-err {
+    @apply cursor-pointer;
+    @apply shadow-sm;
+    @apply inline-flex;
+    @apply items-center;
+    @apply rounded-md;
+    @apply border;
+    @apply focus:outline-none;
+    @apply focus:ring-2;
+    @apply focus:ring-offset-2;
+    @apply px-3;
+    @apply py-2;
+    @apply font-medium;
+    @apply text-sm;
+    @apply justify-center;
+
+    &.disabled {
+        @apply cursor-not-allowed;
+    }
+
+    &.rounded-full {
+        @apply px-4;
+        @apply py-2;
+        border-radius: 9999px;
+    }
+
+    &.rounded-full.no-text {
+        @apply px-2;
+        @apply py-2;
+    }
+
+    .prefix-icon {
+        @apply -ml-1;
+        @apply mr-3;
+        @apply h-4;
+        @apply w-4;
+    }
+
+    .icon {
+        @apply h-4;
+        @apply w-4;
+    }
+
+    .suffix-icon {
+        @apply ml-3;
+        @apply -mr-1;
+        @apply h-4;
+        @apply w-4;
+    }
+
+
+    &.xs {
+        @apply px-2;
+        @apply py-1;
+        @apply text-xs;
+ 
+        &.rounded-full {
+            @apply px-2;
+            @apply py-1;
+            border-radius: 9999px;
+        }
+
+        &.rounded-full.no-text {
+            @apply px-1;
+            @apply py-1;
+            border-radius: 9999px;
+        }
+
+        .prefix-icon {
+            @apply -ml-0.5;
+            @apply mr-2;
+            @apply h-3;
+            @apply w-3;
+        }
+
+        .icon {
+            @apply h-3;
+            @apply w-3;
+        }
+
+        .suffix-icon {
+            @apply ml-2;
+            @apply -mr-0.5;
+            @apply h-3;
+            @apply w-3;
+        }
+    }
+
+
+    &.sm {
+        @apply px-2.5;
+        @apply py-1.5;
+        @apply text-xs;
+ 
+        &.rounded-full {
+            @apply px-3;
+            @apply py-1.5;
+            border-radius: 9999px;
+        }
+
+        &.rounded-full.no-text {
+            @apply px-1;
+            @apply py-1;
+            border-radius: 9999px;
+        }
+
+        .prefix-icon {
+            @apply -ml-0.5;
+            @apply mr-2;
+            @apply h-4;
+            @apply w-4;
+        }
+
+        .icon {
+            @apply h-4;
+            @apply w-4;
+        }
+
+        .suffix-icon {
+            @apply ml-2;
+            @apply -mr-0.5;
+            @apply h-4;
+            @apply w-4;
+        }
+    }
+
+    &.md {
+        @apply px-3;
+        @apply py-2;
+        @apply text-sm;
+        @apply leading-4;
+        @apply rounded-md;
+
+        &.rounded-full {
+            @apply px-3.5;
+            @apply py-2;
+            border-radius: 9999px;
+        }
+
+        &.rounded-full.no-text {
+            @apply px-1.5;
+            @apply py-1.5;
+        }
+
+        .prefix-icon {
+            @apply -ml-1;
+            @apply mr-2;
+            @apply h-4;
+            @apply w-4;
+        }
+
+        .icon {
+            @apply h-4;
+            @apply w-4;
+        }
+
+        .suffix-icon {
+            @apply ml-2;
+            @apply -mr-1;
+            @apply h-4;
+            @apply w-4;
+        }
+    }
+
+    &.lg {
+        @apply px-4;
+        @apply py-2;
+        @apply text-base;
+        @apply rounded-lg;
+
+        &.rounded-full {
+            @apply px-5;
+            @apply py-2;
+            border-radius: 9999px;
+        }
+
+        &.rounded-full.no-text {
+            @apply px-2;
+            @apply py-2;
+        }
+
+        .prefix-icon {
+            @apply -ml-1;
+            @apply mr-3;
+            @apply h-5;
+            @apply w-5;
+        }
+
+        .icon {
+            @apply h-5;
+            @apply w-5;
+        }
+
+        .suffix-icon {
+            @apply ml-3;
+            @apply -mr-1;
+            @apply h-5;
+            @apply w-5;
+        }
+    }
+
+    &.xl {
+        @apply px-6;
+        @apply py-3;
+        @apply text-base;
+
+        &.rounded-full {
+            @apply px-6;
+            @apply py-3;
+            border-radius: 9999px;
+        }
+
+        &.rounded-full.no-text {
+            @apply px-3;
+            @apply py-3;
+        }
+
+        .prefix-icon {
+            @apply -ml-2;
+            @apply mr-4;
+            @apply h-6;
+            @apply w-6;
+        }
+
+        .icon {
+            @apply h-6;
+            @apply w-6;
+        }
+
+        .suffix-icon {
+            @apply ml-3;
+            @apply -mr-1;
+            @apply h-6;
+            @apply w-6;
+        }
+    }
+}

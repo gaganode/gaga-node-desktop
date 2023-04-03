@@ -1,0 +1,69 @@
+appId: gaganode
+productName: gaganode
+
+files:
+  - filter:
+    - electron/src/**/*
+    - vue/dist/**/*
+    - node_modules/**/*
+
+directories:
+  buildResources: electron/resource
+  output: release
+
+asar: true
+
+mac:
+  artifactName: ${name}-${version}-mac-${arch}.${ext}
+  icon: 'electron/resource/icon.png'
+  category: public.app-category.productivity
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  target:
+    - dmg
+
+dmg:
+  iconSize: 160
+  iconTextSize: 12
+  window:
+    width: 1024
+    height: 960
+  contents:
+    - x: 180
+      y: 170
+      type: file
+    - x: 480
+      y: 170
+      type: link
+      path: /Applications
+  sign: false
+
+win:
+  artifactName: ${name}-${version}-win-${arch}.${ext}
+  icon: 'electron/resource/icon.png'
+  target:
+    - target: nsis
+      arch:
+        - ia32
+
+nsis:
+  oneClick: false
+  warningsAsErrors: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+
+linux:
+  artifactName: ${name}-${version}-linux-${arch}.${ext}
+  icon: 'electron/resource/icon.png'
+  #executableName: electron-vue3-template-linux-desktop
+  #synopsis: A desktop for Electron App Template
+  executableArgs:
+    - --no-sandbox
+  maintainer: admin@coreservice.io
+  target:
+    - deb
+    - rpm

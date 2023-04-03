@@ -1,0 +1,22 @@
+input[type="radio"] {
+    @apply h-4;
+    @apply w-4;
+    @apply border-gray-300;
+    @apply text-indigo-600;
+    @apply focus:ring-indigo-500;
+
+    &.sm {
+        @apply h-3;
+        @apply w-3;
+    }
+
+    &.lg {
+        @apply h-6;
+        @apply w-6;
+    }
+
+    &.xl {
+        @apply h-8;
+        @apply w-8;
+    }
+}

@@ -1,0 +1,55 @@
+.progress-bar {
+    @apply w-full;
+    @apply bg-gray-200;
+    @apply rounded-md;
+
+    .internal {
+        white-space: nowrap;
+        @apply text-white;
+        @apply bg-indigo-500;
+        @apply text-xs;
+        @apply font-medium;
+        @apply text-center;
+        @apply p-0.5;
+        @apply leading-none;
+        @apply rounded-md;
+    }
+
+    .internal.sm{
+        @apply py-0;
+        @apply px-0.5
+    }
+
+    .internal.lg{
+        @apply p-1;
+    }
+
+
+    .internal.err {
+        @apply bg-red-500;
+    }
+
+    .internal.info {
+        @apply bg-sky-100;
+        @apply text-sky-700;
+    }
+
+    .internal.success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .internal.warning {
+        background-color: #ffc107;
+        color: #4e3a00;
+    }
+
+    .internal.purple {
+        @apply bg-purple-100;
+        @apply text-purple-700;
+    }
+
+    .internal.dark {
+        @apply bg-black;
+    }
+}

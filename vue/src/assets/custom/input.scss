@@ -1,0 +1,208 @@
+//input
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="datetime-local"],
+[type="month"],
+[type="search"],
+[type="tel"],
+[type="time"],
+[type="week"],
+[multiple],
+textarea,
+select {
+    @apply block;
+    @apply w-full;
+    @apply border-gray-300;
+    @apply focus:primary;
+    @apply sm:text-sm;
+
+    &.disabled {
+        @apply disabled:cursor-not-allowed;
+        @apply disabled:border-gray-200;
+        @apply disabled:bg-gray-50;
+        @apply disabled:text-gray-500;
+    }
+
+    @apply focus:z-10;
+}
+
+.input-wrap {
+    @apply relative;
+
+    &.sm {
+        input {
+            @apply pt-1.5;
+            @apply pb-1.5;
+            @apply text-sm;
+        }
+
+        .prefix,
+        .suffix {
+            @apply text-sm;
+        }
+    }
+
+    .prefix {
+        @apply z-20;
+        @apply absolute;
+        @apply inset-y-0;
+        @apply left-0;
+        @apply flex;
+        @apply items-center;
+        @apply pl-3;
+
+        @apply text-sm;
+        @apply text-gray-500;
+
+        svg {
+            @apply text-gray-400;
+        }
+
+        svg.err,
+        svg.text-err {
+            @apply text-red-500;
+        }
+
+        select {
+            @apply border-transparent;
+            @apply bg-transparent;
+            @apply focus:ring-0;
+        }
+    }
+
+    .suffix {
+        @apply z-20;
+        @apply absolute;
+        @apply inset-y-0;
+        @apply right-0;
+        @apply flex;
+        @apply items-center;
+        @apply pr-3;
+        @apply text-sm;
+        @apply text-gray-500;
+
+        svg {
+            @apply text-gray-400;
+        }
+
+        svg.err,
+        svg.text-err {
+            @apply text-red-500;
+        }
+
+        svg.success,
+        svg.text-success {
+            @apply text-green-600;
+        }
+
+        select {
+            @apply border-transparent;
+            @apply bg-transparent;
+            @apply focus:ring-0;
+        }
+
+        kbd {
+            @apply inline-flex;
+            @apply items-center;
+            @apply rounded;
+            @apply border;
+            @apply border-gray-200;
+            @apply px-2;
+            @apply font-sans;
+            @apply text-sm;
+            @apply font-medium;
+            @apply text-gray-400;
+        }
+    }
+}
+
+/////////////////////////
+input.focus\:primary {
+    @apply focus:border-indigo-500;
+    @apply focus:ring-indigo-500;
+}
+/////////////////////////
+input.focus\:success {
+    @apply focus:ring-green-600;
+    @apply focus:border-green-600;
+}
+input.success {
+    @apply focus:ring-green-600;
+    @apply focus:border-green-600;
+}
+//////////////////////////
+input.focus\:err {
+    @apply focus:ring-red-500;
+    @apply focus:border-red-500;
+}
+input.err {
+    @apply focus:ring-red-500;
+    @apply focus:border-red-500;
+}
+//////////////////////////
+
+.btn-input-wrap {
+    @apply relative;
+    @apply flex;
+
+    .input-wrap {
+        @apply w-full;
+        @apply inline-flex;
+
+        input {
+            @apply w-full;
+        }
+    }
+
+    .btn {
+        @apply hover:bg-gray-100;
+        @apply cursor-pointer;
+
+        &.disabled {
+            @apply hover:bg-gray-50;
+            @apply cursor-not-allowed;
+        }
+    }
+
+    .tab {
+        &.disabled {
+            @apply bg-gray-50;
+            @apply border-gray-200;
+        }
+    }
+
+    .btn,
+    .tab {
+        @apply border;
+        @apply bg-gray-50;
+        @apply border-gray-300;
+        @apply bg-gray-50;
+        @apply text-gray-700;
+        @apply px-4;
+        @apply whitespace-nowrap;
+        @apply inline-flex;
+        @apply items-center;
+        @apply mb-0;
+
+        span {
+            @apply text-gray-700;
+        }
+
+        svg {
+            @apply text-gray-400;
+            @apply inline-flex;
+            @apply h-4;
+            @apply w-4;
+            @apply mr-2;
+        }
+
+        .captcha {
+            width: 140px;
+            height: 20px;
+        }
+    }
+}

@@ -1,0 +1,148 @@
+.switch {
+    @apply relative;
+    @apply inline-flex;
+    @apply flex-shrink-0;
+    @apply cursor-pointer;
+    @apply rounded-full;
+    @apply border-2;
+    @apply border-transparent;
+    @apply transition-colors;
+    @apply duration-200;
+    @apply ease-in-out;
+    @apply focus:outline-none;
+    @apply focus:ring-2;
+    @apply focus:ring-indigo-500;
+    @apply focus:ring-offset-2;
+    @apply h-6;
+    @apply w-11;
+
+    &.sm {
+        @apply h-4;
+        @apply w-7;
+
+        .move-block {
+            @apply h-3;
+            @apply w-3;
+
+            &.enable {
+                @apply translate-x-3;
+            }
+
+            .on-icon svg,
+            .off-icon svg {
+                @apply h-2;
+                @apply w-2;
+            }
+        }
+    }
+
+    &.lg {
+        @apply h-8;
+        @apply w-16;
+
+        .move-block {
+            @apply h-7;
+            @apply w-7;
+
+            &.enable {
+                @apply translate-x-8;
+            }
+
+            .on-icon svg,
+            .off-icon svg {
+                @apply h-4;
+                @apply w-4;
+            }
+        }
+    }
+
+
+    &.enable {
+        @apply bg-indigo-600;
+    }
+
+    &.disable {
+        @apply bg-gray-200;
+    }
+
+    .move-block {
+        @apply pointer-events-none;
+        @apply relative;
+        @apply inline-block;
+        @apply transform;
+        @apply rounded-full;
+        @apply bg-white;
+        @apply shadow;
+        @apply ring-0;
+        @apply transition;
+        @apply duration-200;
+        @apply ease-in-out;
+        @apply h-5;
+        @apply w-5;
+
+        &.enable {
+            @apply translate-x-5;
+        }
+
+        &.disable {
+            @apply translate-x-0;
+        }
+
+        .off-icon {
+            @apply absolute;
+            @apply inset-0;
+            @apply flex;
+            @apply h-full;
+            @apply w-full;
+            @apply items-center;
+            @apply justify-center;
+            @apply transition-opacity;
+
+            &.enable {
+                @apply opacity-0;
+                @apply ease-out;
+                @apply duration-100;
+            }
+
+            &.disable {
+                @apply opacity-100;
+                @apply ease-in;
+                @apply duration-200;
+            }
+
+            svg {
+                @apply h-3;
+                @apply w-3;
+                @apply text-gray-400;
+            }
+        }
+
+        .on-icon {
+            @apply absolute;
+            @apply inset-0;
+            @apply flex;
+            @apply h-full;
+            @apply w-full;
+            @apply items-center;
+            @apply justify-center;
+            @apply transition-opacity;
+
+            &.disable {
+                @apply opacity-0;
+                @apply ease-out;
+                @apply duration-100;
+            }
+
+            &.enable {
+                @apply opacity-100;
+                @apply ease-in;
+                @apply duration-200;
+            }
+            svg {
+                @apply h-3;
+                @apply w-3;
+                @apply text-indigo-600;
+            }
+        }
+    }
+}

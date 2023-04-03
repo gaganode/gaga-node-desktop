@@ -1,0 +1,172 @@
+.list-box {
+    .list-box-btn {
+        @apply relative;
+        @apply cursor-default;
+        @apply rounded-md;
+        @apply border;
+        @apply border-gray-300;
+        @apply bg-white;
+        @apply text-left;
+        @apply shadow-sm;
+        @apply focus:border-indigo-500;
+        @apply focus:outline-none;
+        @apply focus:ring-1;
+        @apply focus:ring-indigo-500;
+        @apply sm:text-sm;
+
+        .list-header {
+            @apply flex;
+            @apply items-center;
+
+            .status {
+                @apply inline-block;
+                @apply h-2;
+                @apply w-2;
+                @apply flex-shrink-0;
+                @apply rounded-full;
+
+                &.active {
+                    @apply bg-green-400;
+                    @apply mr-3;
+                }
+
+                &.inactive {
+                    @apply bg-gray-200;
+                    @apply mr-3;
+                }
+            }
+
+            .name {
+                @apply block;
+                @apply truncate;
+            }
+
+            .secondary {
+                @apply ml-2;
+                @apply truncate;
+                @apply text-gray-500;
+            }
+        }
+
+        .list-header-empty {
+            @apply inline-flex;
+            @apply w-full;
+            @apply truncate;
+        }
+
+        .list-header-suffix {
+            @apply pointer-events-none;
+            @apply absolute;
+            @apply inset-y-0;
+            @apply right-0;
+            @apply flex;
+            @apply items-center;
+            @apply pr-2;
+
+            svg {
+                @apply h-5;
+                @apply w-5;
+                @apply text-gray-400;
+            }
+        }
+    }
+
+    .list-box-options {
+        @apply absolute;
+        @apply z-10;
+        @apply mt-1;
+        @apply max-h-60;
+        @apply w-full;
+        @apply overflow-auto;
+        @apply rounded-md;
+        @apply bg-white;
+        @apply py-0;
+        @apply text-base;
+        @apply shadow-lg;
+        @apply ring-1;
+        @apply ring-black;
+        @apply ring-opacity-5;
+        @apply focus:outline-none;
+        @apply sm:text-sm;
+
+        li {
+            @apply relative;
+            @apply cursor-default;
+            @apply select-none;
+            @apply py-2;
+            @apply pl-3;
+            @apply pr-9;
+            @apply cursor-pointer;
+
+            &.active {
+                @apply text-white;
+                @apply bg-indigo-600;
+            }
+
+            &.inactive {
+                @apply text-gray-900;
+            }
+
+            .option-row {
+                @apply flex;
+                @apply items-center;
+
+                .status {
+                    @apply inline-block;
+                    @apply h-2;
+                    @apply w-2;
+                    @apply flex-shrink-0;
+                    @apply rounded-full;
+
+                    &.active {
+                        @apply mr-3;
+                        @apply bg-green-400;
+                    }
+
+                    &.inactive {
+                        @apply mr-3;
+                        @apply bg-gray-200;
+                    }
+                }
+
+                .name {
+                    @apply truncate;
+                }
+
+                .secondary {
+                    @apply ml-2;
+                    @apply truncate;
+
+                    &.active {
+                        @apply text-indigo-200;
+                    }
+                    &.inactive {
+                        @apply text-gray-500;
+                    }
+                }
+
+                .suffix {
+                    @apply absolute;
+                    @apply inset-y-0;
+                    @apply right-0;
+                    @apply flex;
+                    @apply items-center;
+                    @apply pr-4;
+
+                    &.active {
+                        @apply text-white;
+                    }
+
+                    &.inactive {
+                        @apply text-indigo-600;
+                    }
+
+                    svg {
+                        @apply h-5;
+                        @apply w-5;
+                    }
+                }
+            }
+        }
+    }
+}

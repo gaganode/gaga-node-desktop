@@ -1,0 +1,124 @@
+.topbar {
+    @apply min-h-full;
+
+    .nav {
+        @apply bg-white;
+        @apply shadow;
+
+        .top-wrap {
+            @apply mx-auto;
+            @apply max-w-7xl;
+            @apply px-2;
+            @apply sm:px-6;
+            @apply lg:px-8;
+            @apply relative;
+            @apply flex;
+            @apply h-16;
+            @apply justify-between;
+
+            .mobile-top {
+                @apply absolute;
+                @apply inset-y-0;
+                @apply left-0;
+                @apply flex;
+                @apply items-center;
+                @apply sm:hidden;
+
+                .btn-wrap {
+                    @apply inline-flex;
+                    @apply items-center;
+                    @apply justify-center;
+                    @apply rounded-md;
+                    @apply p-2;
+                    @apply text-gray-400;
+                    @apply hover:bg-gray-100;
+                    @apply hover:text-gray-500;
+                    @apply focus:outline-none;
+                    @apply focus:ring-2;
+                    @apply focus:ring-inset;
+                    @apply focus:ring-indigo-500;
+
+                    svg {
+                        @apply block;
+                        @apply h-6;
+                        @apply w-6;
+                    }
+                }
+            }
+
+            .middle {
+                @apply flex;
+                @apply flex-1;
+                @apply items-center;
+                @apply justify-center;
+                @apply sm:items-stretch;
+                @apply sm:justify-start;
+
+                .logo {
+                    @apply flex;
+                    @apply flex-shrink-0;
+                    @apply items-center;
+
+                    img {
+                        @apply hidden;
+                        @apply h-8;
+                        @apply w-auto;
+                        @apply lg:block;
+                    }
+                }
+
+                .text-wrap {
+                    @apply hidden;
+                    @apply sm:ml-6;
+                    @apply sm:flex;
+                    @apply sm:space-x-8;
+
+                    .link {
+                        @apply inline-flex;
+                        @apply items-center;
+                        @apply px-1;
+                        @apply pt-1;
+                        @apply text-base;
+                        @apply text-gray-600;
+                    }
+                }
+            }
+
+            .right {
+                @apply absolute;
+                @apply inset-y-0;
+                @apply right-0;
+                @apply flex;
+                @apply items-center;
+                @apply pr-2;
+                @apply sm:static;
+                @apply sm:inset-auto;
+                @apply sm:ml-6;
+                @apply sm:pr-0;
+            }
+        }
+
+        .mobile-menu {
+            @apply sm:hidden;
+
+            @apply space-y-1;
+            @apply pt-2;
+            @apply pb-4;
+
+            .link {
+                @apply block;
+                @apply border-l-4;
+                @apply border-transparent;
+                @apply py-2;
+                @apply pl-3;
+                @apply pr-4;
+                @apply text-base;
+                @apply font-medium;
+                @apply text-gray-500;
+                @apply hover:border-gray-300;
+                @apply hover:bg-gray-50;
+                @apply hover:text-gray-700;
+            }
+        }
+    }
+}
