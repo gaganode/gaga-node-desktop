@@ -62,5 +62,11 @@ module.exports = Object.freeze({
     logger.error(err)
   },
 
+  debug: (msg, opts = {}) => {
+    if (process.env.NODE_ENV === 'dev') {
+      logger.debug(msg)
+    }
+  },
+
   logsPath,
 })
