@@ -1,44 +1,36 @@
-const { app, BrowserWindow } = require('electron');
-const serve = require('electron-serve')
-const isDev = require('electron-is-dev');
-const path = require('path');
-const logger = require('./common/logger')
+const { app } = require('electron');
+const logger = require('./common/logger');
 
-let loadURL
-if (!isDev) {
-  loadURL = serve({ scheme: 'webui', directory: path.join(__dirname, '..', '..', 'vue', 'dist') });
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+  process.exit(0);
 }
 
-const createWindow = async () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 1028,
-    height: 960,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
+const setupAppMenu = require('./app-menu');
+const setupWebUI = require('./webui');
+const setupDaemon = require('./daemon');
+const setupTray = require('./tray');
+
+const ctx = {};
+
+const initApp = async (ctx) => {
+  await setupAppMenu(ctx);
+  await setupWebUI(ctx);
+  await setupTray(ctx);
+  await setupDaemon(ctx);
+}
+
+const run = async () => {
+  app.on('second-instance', () => {
+    const webui = ctx.webui;
+    if (webui) {
+      if (webui.isMinimized()) {
+        webui.restore();
+      }
+      webui.focus();
+    }
   });
 
-  try {
-    // and load the index.html of the app.
-    if (isDev) {
-
-      mainWindow.loadURL('http://127.0.0.1:5173');
-      // Open the DevTools.
-      mainWindow.webContents.openDevTools();
-
-    } else {
-      const url = new URL('/', 'webui://-');
-      mainWindow.loadURL(url.toString());
-    }
-  } catch(ex) {
-    logger.error(ex);
-  }
-
- 
-};
-
-async function run() {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
@@ -48,13 +40,14 @@ async function run() {
     app.exit(1);
   }
 
-  await createWindow();
+  await initApp(ctx);
 
   app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+    logger.debug('[ui event] activate');
+    const webui = ctx.webui;
+    if (webui) {
+      webui.show();
+      webui.focus();
     }
   });
 }
