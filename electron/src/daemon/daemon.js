@@ -114,6 +114,7 @@ async function startNoded(ctx, noded) {
     logger.debug('[appbin] gaga not found');
   }
 
+  app.exit();
   return null;
 }
 
