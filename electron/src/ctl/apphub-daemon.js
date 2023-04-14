@@ -1,4 +1,5 @@
 const logger = require('../common/logger')
+const { IS_WIN, IS_MAC, DEFAULT_BIN_PATH, DEFAULT_APP_BIN_PATH } = require('../common/consts')
 
 function translateError (err) {
   // get the actual error message to be the err.message
@@ -117,21 +118,46 @@ class ApphubDaemon {
     let output = ''
     let ck_status = ""
 
-    const readyHandler = (data) => {
-      output += data.toString()
-      const notInstallMatch = output.trim().match(/not installed/)
-      if ((notInstallMatch != null) && notInstallMatch.length > 0) {
-        ck_status = "to_isntall"
-      }
+    let readyHandler
+    
+    if (!IS_WIN) {
+      readyHandler = (data) => {
+        output += data.toString()
+        const notInstallMatch = output.trim().match(/not installed/)
+        if ((notInstallMatch != null) && notInstallMatch.length > 0) {
+          ck_status = "to_isntall"
+          return
+        }
 
-      const stopMatch = output.trim().match(/is stopped/)
-      if ((stopMatch != null) && stopMatch.length > 0) {
-        ck_status = "to_start"
-      }
+        const stopMatch = output.trim().match(/is stopped/)
+        if ((stopMatch != null) && stopMatch.length > 0) {
+          ck_status = "to_start"
+          return
+        }
 
-      const runningMatch = output.trim().match(/is running/)
-      if ((runningMatch != null) && runningMatch.length > 0) {
-        ck_status = "is_running"
+        const runningMatch = output.trim().match(/is running/)
+        if ((runningMatch != null) && runningMatch.length > 0) {
+          ck_status = "is_running"
+          return
+        }
+      }
+    } else {
+      readyHandler = (data) => {
+        output += data.toString()
+        const notInstallMatch = output.trim().match(/service does not exist as an installed/)
+        if ((notInstallMatch != null) && notInstallMatch.length > 0) {
+          ck_status = "to_isntall"
+          return
+        }
+
+        const stopMatch = output.trim().match(/SERVICE_STOPPED/)
+        if ((stopMatch != null) && stopMatch.length > 0) {
+          ck_status = "to_start"
+          return
+        } else {
+          ck_status = "is_running"
+          return
+        }
       }
     }
     

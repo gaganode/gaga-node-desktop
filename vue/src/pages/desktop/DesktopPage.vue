@@ -16,7 +16,6 @@ let msg_value = ref("");
 
 let tag_w_msg = ref("");
 let tag_w_open = ref(true);
-let tag_w_loader_open = ref("");
 
 const loadConfig = () => {
     ipcRenderer.send('getApiToken');
@@ -76,10 +75,15 @@ const onRestart = async () => {
 </script>
 <template>
     <DesktopLayout>
-        <Modal v-model:open="tag_w_open" :showLoader="tag_w_loader_open" marginClose="false">
-          <template v-slot:header>Initilizing</template>
+        <Modal v-model:open="tag_w_open" :showLoader="false" :show-cover="true">
           <template v-slot:body>
-            <div class="my-5">
+            <div class="mt-10">
+                <div class="text-center"> this is cover page text</div>
+            </div>
+          </template>
+          <template v-slot:cover>
+            <div class="ml-2 mt-5">
+                <label>Initilizing</label>
                 <div class="relative">
                     <div class="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 absolute bg-gray-100 border border-gray-200 shadow text-black rounded py-2 px-5 flex">
                     <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 animate animate-spin">
@@ -91,9 +95,6 @@ const onRestart = async () => {
             </div>
               <!-- <p class="mt-3">{{ tag_w_msg }}</p> -->
             </div>
-          </template>
-          <template v-slot:footer>
-            <!-- <button type="button" class="btn-secondary" @click="tag_w_open = false">Cancel</button> -->
           </template>
         </Modal>
         <form class="space-y-6 divide-y divide-gray-200 divide-gray-200">

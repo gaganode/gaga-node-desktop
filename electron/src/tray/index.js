@@ -11,6 +11,15 @@ const buildMenu = (ctx) => {
       click: () => { shell.openExternal('https://gaganode.com') }
     },
     {
+      label: 'Advanced',
+      submenu: [
+        {
+          label: 'openLogsDir',
+          click: () => { shell.openPath(app.getPath('userData')) }
+        },
+      ]
+    },
+    {
       label: 'Quit',
       click: () => { app.quit() },
       accelerator: IS_MAC ? 'Command+Q' : null
