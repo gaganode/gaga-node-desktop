@@ -37,6 +37,7 @@
     "moment": "^2.29.4",
     "npm": "^9.4.0",
     "pinia": "^2.0.28",
+    "sudo-prompt": "^9.2.1",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.45",
     "vue-chartjs": "^5.2.0",
