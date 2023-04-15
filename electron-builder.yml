@@ -44,6 +44,7 @@ dmg:
 win:
   artifactName: ${name}-${version}-win-${arch}.${ext}
   icon: 'electron/resource/icon.png'
+  requestedExecutionLevel: requireAdministrator
   target:
     - target: nsis
       arch:
