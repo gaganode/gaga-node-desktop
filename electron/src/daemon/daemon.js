@@ -268,13 +268,6 @@ async function getLogDaemonApp(ctx) {
   }
 }
 
-// module.exports.setupApphub = setupApphub
-// module.exports.healthDaemonApp = healthDaemonApp
-// module.exports.restartDaemonApp = restartDaemonApp
-// module.exports.tokenDaemonApp = tokenDaemonApp
-// module.exports.portDaemonApp = portDaemonApp
-// module.exports.getConfigDaemonApp = getConfigDaemonApp
-// module.exports.getLogDaemonApp = getLogDaemonApp;
 module.exports = {
   setupApphub,
   healthDaemonApp,

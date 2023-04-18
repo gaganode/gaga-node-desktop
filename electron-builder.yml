@@ -10,14 +10,14 @@ files:
     - node_modules/**/*
 
 directories:
-  buildResources: electron/resource
+  buildResources: electron/resource/build
   output: release
 
 asar: false
 
 mac:
   artifactName: ${name}-${version}-mac-${arch}.${ext}
-  icon: 'electron/resource/icon.png'
+  icon: electron/resource/build/icon.png
   category: public.app-category.productivity
   darkModeSupport: true
   hardenedRuntime: true
@@ -43,7 +43,7 @@ dmg:
 
 win:
   artifactName: ${name}-${version}-win-${arch}.${ext}
-  icon: 'electron/resource/icon.png'
+  icon: electron/resource/build/icon.png
   requestedExecutionLevel: requireAdministrator
   target:
     - target: nsis
@@ -58,15 +58,3 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-
-linux:
-  artifactName: ${name}-${version}-linux-${arch}.${ext}
-  icon: 'electron/resource/icon.png'
-  #executableName: electron-vue3-template-linux-desktop
-  #synopsis: A desktop for Electron App Template
-  executableArgs:
-    - --no-sandbox
-  maintainer: admin@coreservice.io
-  target:
-    - deb
-    - rpm
