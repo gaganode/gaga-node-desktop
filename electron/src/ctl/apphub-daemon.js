@@ -1,6 +1,5 @@
 const logger = require('../common/logger')
 const { IS_WIN } = require('../common/consts')
-const sudo = require('sudo-prompt')
 
 function translateError (err) {
   // get the actual error message to be the err.message
@@ -64,53 +63,6 @@ class ApphubDaemon {
     return ready
   }
 
-
-  async sudoCommonExec (args, onReady, onExit) {
-
-    const command = `${this.exec} ${args}`
-
-    logger.info(`[SUDO CMD] ${command}`)
-
-    const ready = new Promise((resolve, reject) => {
-      const opts = {
-        name: 'apphub',
-      };
-      sudo.exec(command, opts, (error, stdout, stderr) => {
-        if (error) {
-          logger.info(`[apphub] ${error}`)
-          if (onExit) {
-            onExit(resolve, reject)
-          } else {
-            resolve("")
-          }
-          return
-        }
-        if (onReady != null)
-          onReady(stdout)
-
-        if (onExit) {
-          onExit(resolve, reject)
-        } else {
-          resolve("")
-        }
-        return
-      });
-    })
-
-    return ready
-  }
-
-  async suCommonExec (args, onReady, onExit) {
-    let ready 
-    // if (IS_WIN) {
-      // ready = this.sudoCommonExec(args, onReady, onExit)
-    // } else {
-      ready = this.commonExec(args, onReady, onExit)
-    // }
-
-    return ready
-  }
-
   async running_id () {
     const args = ["running_id", "--json=true"]
     // local_id
@@ -123,7 +75,7 @@ class ApphubDaemon {
         ck_status = resp["id"]
       }
     }
-    
+
     const onExit = (resolve, reject) => {
       resolve(ck_status)
     }
@@ -239,7 +191,7 @@ class ApphubDaemon {
       resolve(isInstall)
     }
 
-    const ready = this.suCommonExec(args, readyHandler, onExit)
+    const ready = this.commonExec(args, readyHandler, onExit)
 
     const installed = await ready
 
@@ -248,7 +200,7 @@ class ApphubDaemon {
 
   async remove () {
     const args = ['service', 'remove']
-    const ready = this.suCommonExec(args, null, null)
+    const ready = this.commonExec(args, null, null)
 
     const installed = await ready
     return installed
@@ -256,7 +208,7 @@ class ApphubDaemon {
 
   async daemonStart () {
     const args = ['service', 'start']
-    const ready = this.suCommonExec(args, null, null)
+    const ready = this.commonExec(args, null, null)
 
     await ready
     return true

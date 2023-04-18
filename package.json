@@ -12,9 +12,6 @@
     "electron:start": "NODE_ENV=dev electron .",
     "electron:build:mac": "electron-builder -m",
     "electron:build:win": "electron-builder -w",
-    "electron:build:linux:x64": "electron-builder --linux --x64",
-    "electron:build:linux:arm64": "electron-builder --linux --arm64",
-    "electron:build:linux:armv7l": "electron-builder --linux --armv7l",
     "clean": "shx rm -rf vue/dist && shx rm -rf release"
   },
   "dependencies": {
@@ -37,7 +34,6 @@
     "moment": "^2.29.4",
     "npm": "^9.4.0",
     "pinia": "^2.0.28",
-    "sudo-prompt": "^9.2.1",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.45",
     "vue-chartjs": "^5.2.0",

@@ -1,5 +1,5 @@
 const { Menu, Tray, shell, app } = require('electron');
-const { IS_MAC, IS_WIN, VERSION } = require('../common/consts');
+const { IS_MAC } = require('../common/consts');
 const logger = require('../common/logger');
 const icon = require('./icon');
 
@@ -54,6 +54,15 @@ const setupTray = (ctx) => {
     // platforms than macOS.
     tray.on('click', popupMenu);
   }
+
+  tray.on('right-click', popupMenu);
+  tray.on('double-click', () => {
+    const webui = ctx.webui;
+    if (webui) {
+      webui.show();
+      webui.focus();
+    }
+  });
 
   const setupMenu = () => {
     menu = buildMenu(ctx);

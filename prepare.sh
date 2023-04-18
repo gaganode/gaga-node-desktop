@@ -251,6 +251,7 @@ step_download() {
 
 step_extract() {
   do_execute tar -zxf "${BIN_DIR}/${SOURCE_NAME_LOCAL}" -C "${BIN_DIR}" --strip-components 1
+  do_execute rm -f "${BIN_DIR}/${SOURCE_NAME_LOCAL}"
 }
 
 # following command will execute in BINARY_DIR
