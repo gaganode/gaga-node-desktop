@@ -81,6 +81,12 @@ async function checkNodedInst(noded) {
 
   if (running_id != local_id) {
     await noded.remove();
+
+    if (IS_WIN) {
+      // compatible for old apphub bug
+      await sleep(2000);
+      await noded.kill();
+    }
   }
 }
 
