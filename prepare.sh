@@ -215,7 +215,6 @@ EOABORT
 fi
 
 APP_ADDRESS="https://raw.githubusercontent.com/gaganode/gaga-app-hub/main/bin_gaga_node_pro"
-# APP_PACKAGE="apphub-darwin-amd64.tar.gz"
 APP_PACKAGE="apphub-${OS_NAME}-${ARCH_NAME}.tar.gz"
 
 TARGET_APP_LIST="

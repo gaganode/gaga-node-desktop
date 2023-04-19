@@ -17,7 +17,7 @@ class ApphubDaemon {
     this.initialized = false
   }
 
-  async commonExec (args, onReady, onExit) {
+  async commonExec(args, onReady, onExit) {
     const { execa } = await import("execa")
 
     logger.info(`[CMD] ${this.exec} ${args}`)
@@ -48,7 +48,7 @@ class ApphubDaemon {
       if (onReady != null)
         stdout.on('data', onReady)
 
-      void process.on('exit', () => {
+      process.on('exit', () => {
         stderr.removeAllListeners()
         stdout.removeAllListeners()
 
@@ -63,56 +63,45 @@ class ApphubDaemon {
     return ready
   }
 
-  async running_id () {
-    const args = ["running_id", "--json=true"]
-    // local_id
-    let ck_status = ""
+  async running_id() {
+    const args = ["running_id", "--json=true"];
+    let ck_status = "";
 
     const readyHandler = (data) => {
-      const output = data.toString()
-      const resp = JSON.parse(output)
+      const output = data.toString();
+      const resp = JSON.parse(output);
       if (resp["meta_status"] == 1) {
-        ck_status = resp["id"]
+        ck_status = resp["id"];
       }
     }
 
     const onExit = (resolve, reject) => {
-      resolve(ck_status)
+      resolve(ck_status);
     }
 
-    const ready = this.commonExec(args, readyHandler, onExit)
-
-    const ret = await ready
-
-    return ret
+    return await this.commonExec(args, readyHandler, onExit);
   }
 
-  async local_id () {
+  async local_id() {
     const args = ["local_id", "--json=true"]
-    // local_id
     let ck_status = ""
 
     const readyHandler = (data) => {
-      const output = data.toString()
-      const resp = JSON.parse(output)
+      const output = data.toString();
+      const resp = JSON.parse(output);
       if (resp["meta_status"] == 1) {
-        ck_status = resp["id"]
+        ck_status = resp["id"];
       }
     }
     
     const onExit = (resolve, reject) => {
-      resolve(ck_status)
+      resolve(ck_status);
     }
 
-    const ready = this.commonExec(args, readyHandler, onExit)
-
-    const ret = await ready
-
-    return ret
+    return await this.commonExec(args, readyHandler, onExit);
   }
 
-  async statusService () {
-
+  async statusService() {
     const args = ["service", "status"]
 
     let output = ''
@@ -162,18 +151,13 @@ class ApphubDaemon {
     }
     
     const onExit = (resolve, reject) => {
-      resolve(ck_status)
+      resolve(ck_status);
     }
 
-    const ready = this.commonExec(args, readyHandler, onExit)
-
-    const ret = await ready
-
-    return ret
+    return await this.commonExec(args, readyHandler, onExit);
   }
 
-  async install () {
-
+  async install() {
     const args = ['service', 'install']
 
     let output = ''
@@ -191,22 +175,53 @@ class ApphubDaemon {
       resolve(isInstall)
     }
 
-    const ready = this.commonExec(args, readyHandler, onExit)
-
-    const installed = await ready
+    const installed = await this.commonExec(args, readyHandler, onExit)
 
     return installed
   }
 
-  async remove () {
+  async remove() {
     const args = ['service', 'remove']
-    const ready = this.commonExec(args, null, null)
-
-    const installed = await ready
-    return installed
+    await this.commonExec(args, null, null)
   }
 
-  async daemonStart () {
+  async kill() {
+    if (!IS_WIN) {
+      return;
+    }
+
+    const args = ['/f', '/im', 'gaganode.exe']
+
+    const { execa } = await import("execa")
+
+    const process = execa('taskkill.exe', args, {
+      // env: this.env
+    })
+
+    const { stdout, stderr } = process
+
+    if (stderr == null) {
+      throw new Error('stderr was not defined on subprocess')
+    }
+
+    if (stdout == null) {
+      throw new Error('stderr was not defined on subprocess')
+    }
+
+    stderr.on('data', data => {
+      logger.error(`[kill] ${data.toString()}`)
+    })
+    stdout.on('data', data => {
+      logger.info(`[kill] ${data.toString()}`)
+    })
+
+    process.on('exit', () => {
+      stderr.removeAllListeners()
+      stdout.removeAllListeners()
+    })
+  }
+
+  async daemonStart() {
     const args = ['service', 'start']
     const ready = this.commonExec(args, null, null)
 
@@ -214,7 +229,7 @@ class ApphubDaemon {
     return true
   }
 
-  async start (handle) {
+  async start(handle) {
     const { execa } = await import("execa");
    
     if (!this.started) {
@@ -304,36 +319,32 @@ class ApphubDaemon {
     })
 
     void process.on('exit', () => {
-      stderr.removeAllListeners()
-      stdout.removeAllListeners()
+      stderr.removeAllListeners();
+      stdout.removeAllListeners();
     })
 
-    return this
+    return this;
   }
 
-  async statusApp (handle) {
+  async statusApp(handle) {
 
-    const args = ["status"]
+    const args = ["status"];
 
     const readyHandler = (data) => {
-      handle(data.toString())
+      handle(data.toString());
     }
   
-    const ready = this.commonExec(args, readyHandler, null)
-
-    await ready
+    await this.commonExec(args, readyHandler, null);
   }
 
-  async healthApp (handle) {
-    const args = ["health", "--name=gaganode"]
+  async healthApp(handle) {
+    const args = ["health", "--name=gaganode"];
 
     const readyHandler = (data) => {
-      handle(data.toString())
+      handle(data.toString());
     }
   
-    const ready = this.commonExec(args, readyHandler, null)
-
-    await ready
+    await this.commonExec(args, readyHandler, null);
   }
 }
 
