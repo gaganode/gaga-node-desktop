@@ -244,7 +244,8 @@ step_clean() {
 }
 
 step_download() {
-  do_download -s "${SOURCE_PATH_LOCAL}" -O
+  echo "${SOURCE_PATH_LOCAL}"
+  do_download "${SOURCE_PATH_LOCAL}" -O
   do_execute mv "${SOURCE_NAME_LOCAL}" "${BIN_DIR}"
 }
 
