@@ -5,7 +5,6 @@ const setupAppMenu = (ctx) => {
 
   const template = [
     { role: 'appMenu' },
-    { role: 'fileMenu' },
     { role: 'editMenu' },
     ...isDev ? [{ role: 'viewMenu' }] : [],
     { role: 'windowMenu' },
@@ -13,7 +12,7 @@ const setupAppMenu = (ctx) => {
       role: 'help',
       submenu: [
         {
-          label: 'Visit Website',
+          label: 'Website',
           click: () => shell.openExternal('https://gaganode.com')
         }
       ]
