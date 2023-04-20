@@ -1,5 +1,5 @@
-appId: gaganode-desktop
-productName: GaganodeDesktop
+appId: gaganode.desktop
+productName: Gaganode Desktop
 
 files:
   - filter:
