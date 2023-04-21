@@ -49,6 +49,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@electron/notarize": "^1.2.3",
     "@vitejs/plugin-vue": "^4.1.0",
     "autoprefixer": "^10.4.14",
     "electron": "^23.1.4",
