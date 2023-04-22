@@ -118,8 +118,9 @@ const onRestart = async () => {
                             </div>
                         </template>
                         <template v-slot:suffix>
+                              <!--click to https://gaganode.com  -->
                             <div class="btn-secondary xs"
-                                v-tippy="{ placement: 'top', content: 'go to https://gaganode.com ,register and get your token' }">
+                                v-tippy="{ placement: 'top', content: 'click to https://gaganode.com ,register and get your token' }">
                                 how to get my token <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
                             </div>
                         </template>
@@ -135,8 +136,9 @@ const onRestart = async () => {
                         <template v-slot:subject>change this if and only if you are running a server in data
                             center</template>
                         <template v-slot:suffix>
-                            <div class="btn-secondary xs" v-tippy="{ placement: 'top', content: 'xxxx' }">
-                                what is this <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
+                            <!--click to https://docs.gaganode.com/gaganode-service_port.html  -->
+                            <div class="btn-secondary xs" v-tippy="{ placement: 'top', content: 'click to tutorial' }">
+                                how to ? <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
                             </div>
                         </template>
                     </ListItem>

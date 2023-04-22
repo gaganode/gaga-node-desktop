@@ -15,13 +15,8 @@ export default [
   },
   //select
   {
-    path: "/example/select/single_select",
-    component: () => import("../../pages/example/select/SingleSelectPage.vue"),
-  },
-  //multi-select
-  {
-    path: "/example/select/multi_select",
-    component: () => import("../../pages/example/select/MultiSelectPage.vue"),
+    path: "/example/select/select",
+    component: () => import("../../pages/example/select/SelectPage.vue"),
   },
   //input
   {
