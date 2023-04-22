@@ -7,7 +7,7 @@ import Modal from "@/components/core/modal/modal.vue";
 import logo from "@/assets/logo.png";
 
 import { onMounted, ref } from 'vue'
-const { ipcRenderer } = window.require('electron');
+const { ipcRenderer, shell } = window.require('electron');
 
 let token_value = ref("LOADING");
 let port_value = ref("LOADING");
@@ -72,6 +72,10 @@ const onRestart = async () => {
     ipcRenderer.send('trigRestart', config);
 }
 
+const openPortHelp = () => {
+    shell.openExternal('https://docs.gaganode.com/gaganode-service_port.html');
+}
+
 </script>
 <template>
     <DesktopLayout>
@@ -133,12 +137,12 @@ const onRestart = async () => {
                                 <input type="text" id="port" class="rounded" v-model="port_value" />
                             </div>
                         </template>
-                        <template v-slot:subject>change this if and only if you are running a server in data
-                            center</template>
+                        <template v-slot:subject>change this if and only if you are running a server in data center</template>
                         <template v-slot:suffix>
-                            <!--click to https://docs.gaganode.com/gaganode-service_port.html  -->
+                            <div @click="openPortHelp">
                             <div class="btn-secondary xs" v-tippy="{ placement: 'top', content: 'click to tutorial' }">
                                 how to ? <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
+                            </div>
                             </div>
                         </template>
                     </ListItem>
