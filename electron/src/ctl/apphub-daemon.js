@@ -20,7 +20,6 @@ const setupApphub = (opt) => {
     }
 
     try {
-
       logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
 
       const { stdout, stderr } = await execa(exec, args, {
