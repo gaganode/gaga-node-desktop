@@ -70,8 +70,8 @@ const createWindow = async () => {
 const setupWebUI = async (ctx) => {
   ctx.webui = await createWindow();
 
-  const sendRunningConsole = (msg) => ctx.webui.webContents.send('infoout', msg)
-  ctx.sendRunningConsole = sendRunningConsole;
+  const sendGUIView = (msg) => ctx.webui.webContents.send('infoout', msg)
+  ctx.sendGUIView = sendGUIView;
 
   const appReady = (msg) => ctx.webui.webContents.send('appReady', msg)
   ctx.appReady = appReady;

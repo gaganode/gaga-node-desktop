@@ -1,73 +1,101 @@
 const logger = require('../common/logger')
 
-class Daemon {
+function translateError(err) {
+  // get the actual error message to be the err.message
+  err.message = `${err.stdout} \n\n ${err.stderr} \n\n ${err.message} \n\n`;
+  return err;
+}
 
-  constructor (opts) {
-    this.opts = opts
-    this.exec = this.opts.bin
-  }
+const setupGagaCtl = (opt) => {
 
-  async commonExec(args, onReady, onExit) {
+  const opts = opt;
+  const exec = opts.bin;
+  // const env = ;
+
+  const commonExec = async (args, onReady) => {
     const { execa } = await import("execa")
 
-    logger.debug(`[CMD] ${this.exec} ${args}`)
+    if (exec == null) {
+      throw new Error('No executable specified');
+    }
 
-    const ready = new Promise((resolve, reject) => {
+    try {
+      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
 
-      const process = execa(this.exec, args, {
+      const { stdout, stderr } = await execa(exec, args, {
         // env: this.env
       })
 
-      const { stdout, stderr } = process
+      logger.error(`[apphub] ${stderr.toString()}`);
+      logger.info(`[apphub] ${stdout.toString()}`);
+
+      if (onReady != null) {
+        onReady(stdout);
+      }
+
+    } catch(ex) {
+      translateError(ex);
+      throw ex;
+    }
+  }
+
+  const commonExecBe = async (args, onReady) => {
+    const { execa } = await import("execa")
+
+    const funcall = new Promise((resolve, reject) => {
+      if (exec == null) {
+        return reject(new Error('No executable specified'));
+      }
+
+      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
+    
+      const subprocess = execa(exec, args, {
+        // env: env
+      })
+
+      const { stdout, stderr } = subprocess;
 
       if (stderr == null) {
-        throw new Error('stderr was not defined on subprocess')
+        throw new Error('stderr was not defined on subprocess');
       }
 
       if (stdout == null) {
-        throw new Error('stderr was not defined on subprocess')
+        throw new Error('stdout was not defined on subprocess');
       }
 
       stderr.on('data', data => {
-        logger.error(`[apphub] ${data.toString()}`)
+        logger.error(`[gaga] ${data.toString()}`);
       })
       stdout.on('data', data => {
-        logger.debug(`[apphub] ${data.toString()}`)
+        logger.debug(`[gaga] ${data.toString()}`);
       })
 
-      if (onReady != null)
-        stdout.on('data', onReady)
+      if (onReady != null) {
+        stdout.on('data', onReady);
+      }
+      subprocess.on('exit', () => {
+        stderr.removeAllListeners();
+        stdout.removeAllListeners();
 
-      void process.on('exit', () => {
-        stderr.removeAllListeners()
-        stdout.removeAllListeners()
-
-        if (onExit) {
-          onExit(resolve, reject)
-        } else {
-          resolve("")
-        }
+        resolve("");
       })
     })
 
-    return ready
+    return funcall
   }
 
-  async execute(args, handle) {
+  const execute = async (args, handle) => {
     const readyHandler = (data) => {
       const output = data.toString();
       handle(output);
     }
 
-    const ready = this.commonExec(args, readyHandler, null);
+    await commonExec(args, readyHandler);
 
-    const ret = await ready;
-
-    return ret;
+    return "";
   }
 
-  async getConfig (args) {
-
+  const getConfig = async (args) => {
     let config = {}
   
     const readyHandler = (data) => {
@@ -83,12 +111,15 @@ class Daemon {
       config.version = version;
     }
 
-    const ready = this.commonExec(args, readyHandler, null)
-
-    await ready;
+    await commonExec(args, readyHandler);
 
     return config;
   }
+
+  return {
+    getConfig: getConfig,
+    execute: execute,
+  };
 }
 
-module.exports = Daemon;
+module.exports = setupGagaCtl;
