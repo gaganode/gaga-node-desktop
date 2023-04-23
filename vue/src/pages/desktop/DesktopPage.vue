@@ -22,8 +22,6 @@ const loadConfig = () => {
 };
 
 onMounted(()=> {
-    console.log("onMounted");
-    
     ipcRenderer.on('displayConfig', (event, config) => {
         if (config.token) {
             token_value.value = config.token;
@@ -48,7 +46,7 @@ onMounted(()=> {
 
     const tickerId = setInterval(() => {
         ipcRenderer.send('isAppReady');
-    }, 1000);
+    }, 1500);
 
     ipcRenderer.on('appReady', (event, msg) => {
         console.log("appReady");
@@ -67,13 +65,13 @@ onMounted(()=> {
     loadConfig();
 });
 
-const onRestart = async () => {
+const onRestart = () => {
     const config = { token : token_value.value, port: port_value.value };
     ipcRenderer.send('trigRestart', config);
 }
 
-const openPortHelp = () => {
-    shell.openExternal('https://docs.gaganode.com/gaganode-service_port.html');
+const openLink = (link) => {
+    shell.openExternal(link);
 }
 
 </script>
@@ -82,7 +80,7 @@ const openPortHelp = () => {
         <Modal v-model:open="tag_w_open" :showLoader="false" :show-cover="true">
           <template v-slot:body>
             <div class="mt-10">
-                <div class="text-center"> this is cover page text</div>
+                <div class="text-center">this is cover page text</div>
             </div>
           </template>
           <template v-slot:cover>
@@ -109,7 +107,9 @@ const openPortHelp = () => {
                 </h1>
                 <p class="mt-3">
                     <span class="badge">Version:{{ version_value }}</span> For latest updates and earnings please go to official website:
-                    <a href="https://gaganode.com" class="href cursor-pointer">https://gaganode.com</a>
+                    <span class="href cursor-pointer" @click="openLink('https://gaganode.com')">
+                        https://gaganode.com
+                    </span>
                 </p>
             </div>
             <div class="pt-2">
@@ -122,9 +122,10 @@ const openPortHelp = () => {
                             </div>
                         </template>
                         <template v-slot:suffix>
-                              <!--click to https://gaganode.com  -->
                             <div class="btn-secondary xs"
-                                v-tippy="{ placement: 'top', content: 'click to https://gaganode.com ,register and get your token' }">
+                                v-tippy="{ placement: 'top', content: 'click to https://gaganode.com ,register and get your token' }"
+                                @click="openLink('https://gaganode.com')"
+                            >
                                 how to get my token <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
                             </div>
                         </template>
@@ -139,10 +140,11 @@ const openPortHelp = () => {
                         </template>
                         <template v-slot:subject>change this if and only if you are running a server in data center</template>
                         <template v-slot:suffix>
-                            <div @click="openPortHelp">
-                            <div class="btn-secondary xs" v-tippy="{ placement: 'top', content: 'click to tutorial' }">
-                                how to ? <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
-                            </div>
+                            <div class="btn-secondary xs"
+                                v-tippy="{ placement: 'top', content: 'click to tutorial' }"
+                                @click="openLink('https://docs.gaganode.com/gaganode-service_port.html')"
+                            >
+                                help <InformationCircleIcon class="ml-1 icon inline"></InformationCircleIcon>
                             </div>
                         </template>
                     </ListItem>
