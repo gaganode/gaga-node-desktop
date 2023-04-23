@@ -106,24 +106,18 @@ async function startNoded(ctx, noded) {
   await prepareNoded(handle, noded);
 
   const appBin = getAppBinPath();
-  let cnt = 20;
-  while (cnt > 0) {
+  while (true) {
     if (fileExists(appBin)) {
-      logger.debug('[appbin] gaga found');
+      logger.debug('[appbin] Gaganode found');
       ctx.appReady("110011");
       return noded;
     }
-    handle("gaganode preparing");
+    ctx.appReady("Gaganode is downloading and initializing");
     await sleep(5000);
-    cnt = cnt - 1;
 
-    logger.debug('[appbin] gaga not found');
+    logger.debug('[appbin] Gaganode not found');
   }
-
-  app.exit();
-  return null;
 }
-
 
 async function restartDaemonApp(ctx) {
   const noded = ctx.daemonApp;
