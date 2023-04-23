@@ -1,69 +1,92 @@
 const logger = require('../common/logger')
 const { IS_WIN } = require('../common/consts')
 
-function translateError (err) {
+function translateError(err) {
   // get the actual error message to be the err.message
-  err.message = `${err.stdout} \n\n ${err.stderr} \n\n ${err.message} \n\n`
-
-  return err
+  err.message = `${err.stdout} \n\n ${err.stderr} \n\n ${err.message} \n\n`;
+  return err;
 }
 
-class ApphubDaemon {
+const setupApphub = (opt) => {
 
-  constructor (opts) {
-    this.opts = opts
-    this.exec = this.opts.bin
-    this.started = false
-    this.initialized = false
-  }
-
-  async commonExec(args, onReady, onExit) {
+  const opts = opt
+  const exec = opts.bin
+  
+  const commonExec = async (args, onReady) => {
     const { execa } = await import("execa")
 
-    logger.info(`[CMD] ${this.exec} ${args}`)
+    if (exec == null) {
+      throw new Error('No executable specified');
+    }
 
-    const ready = new Promise((resolve, reject) => {
+    try {
 
-      const process = execa(this.exec, args, {
+      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
+
+      const { stdout, stderr } = await execa(exec, args, {
         // env: this.env
       })
 
-      const { stdout, stderr } = process
+      logger.error(`[apphub] ${stderr.toString()}`);
+      logger.info(`[apphub] ${stdout.toString()}`);
+
+      if (onReady != null) {
+        onReady(stdout);
+      }
+
+    } catch(ex) {
+      translateError(ex);
+      throw ex;
+    }
+  }
+
+  const commonExecBe = async (args, onReady) => {
+    const { execa } = await import("execa")
+
+    const funcall = new Promise((resolve, reject) => {
+      if (exec == null) {
+        return reject(new Error('No executable specified'));
+      }
+
+      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
+
+      const subprocess = execa(exec, args, {
+        // env: this.env
+      })
+
+      const { stdout, stderr } = subprocess;
 
       if (stderr == null) {
-        throw new Error('stderr was not defined on subprocess')
+        throw new Error('stderr was not defined on subprocess');
       }
 
       if (stdout == null) {
-        throw new Error('stderr was not defined on subprocess')
+        throw new Error('stdout was not defined on subprocess');
       }
 
       stderr.on('data', data => {
-        logger.error(`[apphub] ${data.toString()}`)
+        logger.error(`[apphub] ${data.toString()}`);
       })
       stdout.on('data', data => {
-        logger.info(`[apphub] ${data.toString()}`)
+        logger.info(`[apphub] ${data.toString()}`);
       })
 
-      if (onReady != null)
-        stdout.on('data', onReady)
+      if (onReady != null) {
+        stdout.on('data', onReady);
+      }
+      subprocess.catch(err => reject(translateError(err)));
+      subprocess.on('exit', () => {
+        stderr.removeAllListeners();
+        stdout.removeAllListeners();
 
-      process.on('exit', () => {
-        stderr.removeAllListeners()
-        stdout.removeAllListeners()
-
-        if (onExit) {
-          onExit(resolve, reject)
-        } else {
-          resolve("")
-        }
+        resolve("");
       })
     })
 
-    return ready
+    return await funcall;
   }
 
-  async running_id() {
+  const running_id = async () => {
     const args = ["running_id", "--json=true"];
     let ck_status = "";
 
@@ -75,15 +98,13 @@ class ApphubDaemon {
       }
     }
 
-    const onExit = (resolve, reject) => {
-      resolve(ck_status);
-    }
+    await commonExec(args, readyHandler);
 
-    return await this.commonExec(args, readyHandler, onExit);
+    return ck_status;
   }
 
-  async local_id() {
-    const args = ["local_id", "--json=true"]
+  const local_id = async () => {
+    const args = ["local_id", "--json=true"];
     let ck_status = ""
 
     const readyHandler = (data) => {
@@ -94,103 +115,95 @@ class ApphubDaemon {
       }
     }
     
-    const onExit = (resolve, reject) => {
-      resolve(ck_status);
-    }
+    await commonExec(args, readyHandler);
 
-    return await this.commonExec(args, readyHandler, onExit);
+    return ck_status;
   }
 
-  async statusService() {
-    const args = ["service", "status"]
+  const statusService = async () => {
+    const args = ["service", "status"];
 
-    let output = ''
-    let ck_status = ""
+    let output = '';
+    let ck_status = "";
 
-    let readyHandler
+    let readyHandler;
     
     if (!IS_WIN) {
       readyHandler = (data) => {
         output += data.toString()
-        const notInstallMatch = output.trim().match(/not installed/)
+        const notInstallMatch = output.trim().match(/not installed/);
         if ((notInstallMatch != null) && notInstallMatch.length > 0) {
-          ck_status = "to_isntall"
-          return
+          ck_status = "to_isntall";
+          return;
         }
 
-        const stopMatch = output.trim().match(/is stopped/)
+        const stopMatch = output.trim().match(/is stopped/);
         if ((stopMatch != null) && stopMatch.length > 0) {
-          ck_status = "to_start"
-          return
+          ck_status = "to_start";
+          return;
         }
 
-        const runningMatch = output.trim().match(/is running/)
+        const runningMatch = output.trim().match(/is running/);
         if ((runningMatch != null) && runningMatch.length > 0) {
-          ck_status = "is_running"
-          return
+          ck_status = "is_running";
+          return;
         }
       }
     } else {
       readyHandler = (data) => {
-        output += data.toString()
-        const notInstallMatch = output.trim().match(/service does not exist as an installed/)
+        output += data.toString();
+        const notInstallMatch = output.trim().match(/service does not exist as an installed/);
         if ((notInstallMatch != null) && notInstallMatch.length > 0) {
-          ck_status = "to_isntall"
-          return
+          ck_status = "to_isntall";
+          return;
         }
 
-        const stopMatch = output.trim().match(/SERVICE_STOPPED/)
+        const stopMatch = output.trim().match(/SERVICE_STOPPED/);
         if ((stopMatch != null) && stopMatch.length > 0) {
-          ck_status = "to_start"
-          return
+          ck_status = "to_start";
+          return;
         } else {
-          ck_status = "is_running"
-          return
+          ck_status = "is_running";
+          return;
         }
       }
     }
     
-    const onExit = (resolve, reject) => {
-      resolve(ck_status);
-    }
+    await commonExec(args, readyHandler);
 
-    return await this.commonExec(args, readyHandler, onExit);
+    return ck_status;
   }
 
-  async install() {
-    const args = ['service', 'install']
+  const install = async () => {
+    const args = ['service', 'install'];
 
-    let output = ''
-    let isInstall = false
+    let output = '';
+    let isInstall = false;
 
     const readyHandler = (data) => {
-      output += data.toString()
-      const isMatch = output.trim().match(/install app/)
+      output += data.toString();
+      const isMatch = output.trim().match(/install app/);
       if ((isMatch != null) && isMatch.length > 0) {
-        isInstall = true
+        isInstall = true;
       }
     }
     
-    const onExit = (resolve, reject) => {
-      resolve(isInstall)
-    }
+    await commonExec(args, readyHandler);
 
-    const installed = await this.commonExec(args, readyHandler, onExit)
-
-    return installed
+    return isInstall;
   }
 
-  async remove() {
-    const args = ['service', 'remove']
-    await this.commonExec(args, null, null)
+  const remove = async () => {
+    const args = ['service', 'remove'];
+    await commonExec(args, null);
   }
 
-  async kill() {
+  const killApp = async () => {
     if (!IS_WIN) {
       return;
     }
 
-    const args = ['/f', '/im', 'gaganode.exe']
+    const args = ['/f', '/im', 'gaganode.exe'];
 
     const { execa } = await import("execa")
 
@@ -198,155 +211,76 @@ class ApphubDaemon {
       // env: this.env
     })
 
-    const { stdout, stderr } = process
+    const { stdout, stderr } = process;
 
     if (stderr == null) {
-      throw new Error('stderr was not defined on subprocess')
+      throw new Error('stderr was not defined on subprocess');
     }
 
     if (stdout == null) {
-      throw new Error('stderr was not defined on subprocess')
+      throw new Error('stderr was not defined on subprocess');
     }
 
     stderr.on('data', data => {
-      logger.error(`[kill] ${data.toString()}`)
+      logger.error(`[kill] ${data.toString()}`);
     })
     stdout.on('data', data => {
-      logger.info(`[kill] ${data.toString()}`)
+      logger.info(`[kill] ${data.toString()}`);
     })
 
     process.on('exit', () => {
-      stderr.removeAllListeners()
-      stdout.removeAllListeners()
-    })
-  }
-
-  async daemonStart() {
-    const args = ['service', 'start']
-    const ready = this.commonExec(args, null, null)
-
-    await ready
-    return true
-  }
-
-  async start(handle) {
-    const { execa } = await import("execa");
-   
-    if (!this.started) {
-      const args = ["service", "start"]
-      let output = ''
-
-      const ready = new Promise((resolve, reject) => {
-        if (this.exec == null) {
-          return reject(new Error('No executable specified'))
-        }
-
-        logger.info(`[CMD] ${this.exec} ${args}`)
-
-        this.subprocess = execa(this.exec, args, {
-          // env: this.env
-        })
-
-        const { stdout, stderr } = this.subprocess
-
-        if (stderr == null) {
-          throw new Error('stderr was not defined on subprocess')
-        }
-
-        if (stdout == null) {
-          throw new Error('stderr was not defined on subprocess')
-        }
-
-        stderr.on('data', data => {
-          logger.error(data.toString())
-        })
-        stdout.on('data', data => {
-          handle(data.toString())
-          logger.info(data.toString())
-        })
-
-        const readyHandler = (data) => {
-          output += data.toString()
-        }
-        stdout.on('data', readyHandler)
-        this.subprocess.catch(err => reject(translateError(err)))
-        void this.subprocess.on('exit', () => {
-          this.started = false
-          stderr.removeAllListeners()
-          stdout.removeAllListeners()
-        })
-      })
-
-      await ready
-    }
-
-    this.started = true
-    return this
-  }
-
-  async stop (args) {
-    return this
-  }
-
-  async restartApp (handle) {
-    const { execa } = await import("execa")
-
-    const args = ["restart"]
-
-    logger.info(`[CMD] ${this.exec} ${args}`)
-
-    const process = execa(this.exec, args, {
-      // env: this.env
-    })
-
-    const { stdout, stderr } = process
-
-    if (stderr == null) {
-      throw new Error('stderr was not defined on subprocess')
-    }
-
-    if (stdout == null) {
-      throw new Error('stderr was not defined on subprocess')
-    }
-
-    stderr.on('data', data => {
-      handle(data.toString())
-      logger.error(`[restart] ${data.toString()}`)
-    })
-    stdout.on('data', data => {
-      handle(data.toString())
-      logger.info(`[restart] ${data.toString()}`)
-    })
-
-    void process.on('exit', () => {
       stderr.removeAllListeners();
       stdout.removeAllListeners();
     })
-
-    return this;
   }
 
-  async statusApp(handle) {
+  const daemonStart = async () => {
+    const args = ['service', 'start'];
+    await commonExec(args, null);
+  }
 
+  const restartApp = async (handle) => {
+    const args = ["restart"];
+
+    const readyHandler = (data) => {
+      handle(data.toString());
+    }
+
+    await commonExec(args, readyHandler);
+  }
+
+  const statusApp = async (handle) => {
     const args = ["status"];
 
     const readyHandler = (data) => {
       handle(data.toString());
     }
   
-    await this.commonExec(args, readyHandler, null);
+    await commonExec(args, readyHandler);
   }
 
-  async healthApp(handle) {
+  const healthApp = async (handle) => {
     const args = ["health", "--name=gaganode"];
 
     const readyHandler = (data) => {
       handle(data.toString());
     }
   
-    await this.commonExec(args, readyHandler, null);
+    await commonExec(args, readyHandler);
+  }
+
+  return {
+    running_id,
+    local_id,
+    statusService,
+    install,
+    remove,
+    daemonStart,
+    killApp,
+    restartApp,
+    statusApp,
+    healthApp
   }
 }
 
-// export default ApphubDaemon
-module.exports = ApphubDaemon
+module.exports = setupApphub;
