@@ -13,6 +13,7 @@ let token_value = ref("LOADING");
 let port_value = ref("LOADING");
 let version_value = ref("x.x.x");
 let msg_value = ref("");
+let is_restarting = ref(false);
 
 let tag_w_msg = ref("");
 let tag_w_open = ref(true);
@@ -41,7 +42,9 @@ onMounted(()=> {
     });
 
     ipcRenderer.on('infoout', (event, data) => {
-        msg_value.value = data.toString();
+        if (!is_restarting.value) {
+            msg_value.value = data.toString();
+        }
     });
 
     const tickerId = setInterval(() => {
@@ -68,6 +71,11 @@ onMounted(()=> {
 const onRestart = () => {
     const config = { token : token_value.value, port: port_value.value };
     ipcRenderer.send('trigRestart', config);
+    is_restarting.value = true;
+    msg_value.value = "Restarting.......";
+    setTimeout(() => {
+        is_restarting.value = false;
+    }, 10000);
 }
 
 const openLink = (link) => {
