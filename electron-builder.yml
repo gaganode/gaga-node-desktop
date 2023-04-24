@@ -52,7 +52,8 @@ win:
   target:
     - target: nsis
       arch:
-        - ia32
+        - x64
+        # - ia32
 
 nsis:
   oneClick: false

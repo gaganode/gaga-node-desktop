@@ -1,88 +1,9 @@
 const logger = require('../common/logger')
-
-function translateError(err) {
-  // get the actual error message to be the err.message
-  err.message = `${err.stdout} \n\n ${err.stderr} \n\n ${err.message} \n\n`;
-  return err;
-}
+const setupProc = require('./process')
 
 const setupGagaCtl = (opt) => {
 
-  const opts = opt;
-  const exec = opts.bin;
-  // const env = ;
-
-  const commonExec = async (args, onReady) => {
-    const { execa } = await import("execa")
-
-    if (exec == null) {
-      throw new Error('No executable specified');
-    }
-
-    try {
-      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
-
-      const { stdout, stderr } = await execa(exec, args, {
-        // env: this.env
-      })
-
-      logger.error(`[apphub] ${stderr.toString()}`);
-      logger.info(`[apphub] ${stdout.toString()}`);
-
-      if (onReady != null) {
-        onReady(stdout);
-      }
-
-    } catch(ex) {
-      translateError(ex);
-      throw ex;
-    }
-  }
-
-  const commonExecBe = async (args, onReady) => {
-    const { execa } = await import("execa")
-
-    const funcall = new Promise((resolve, reject) => {
-      if (exec == null) {
-        return reject(new Error('No executable specified'));
-      }
-
-      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
-    
-      const subprocess = execa(exec, args, {
-        // env: env
-      })
-
-      const { stdout, stderr } = subprocess;
-
-      if (stderr == null) {
-        throw new Error('stderr was not defined on subprocess');
-      }
-
-      if (stdout == null) {
-        throw new Error('stdout was not defined on subprocess');
-      }
-
-      stderr.on('data', data => {
-        logger.error(`[gaga] ${data.toString()}`);
-      })
-      stdout.on('data', data => {
-        logger.debug(`[gaga] ${data.toString()}`);
-      })
-
-      if (onReady != null) {
-        stdout.on('data', onReady);
-      }
-      subprocess.on('exit', () => {
-        stderr.removeAllListeners();
-        stdout.removeAllListeners();
-
-        resolve("");
-      })
-    })
-
-    return funcall
-  }
+  const task = setupProc(opt, { name: 'GagaTask' });
 
   const execute = async (args, handle) => {
     const readyHandler = (data) => {
@@ -90,7 +11,7 @@ const setupGagaCtl = (opt) => {
       handle(output);
     }
 
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return "";
   }
@@ -111,7 +32,7 @@ const setupGagaCtl = (opt) => {
       config.version = version;
     }
 
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return config;
   }
