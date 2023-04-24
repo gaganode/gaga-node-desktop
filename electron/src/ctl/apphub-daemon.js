@@ -1,89 +1,10 @@
 const logger = require('../common/logger')
 const { IS_WIN } = require('../common/consts')
-
-function translateError(err) {
-  // get the actual error message to be the err.message
-  err.message = `${err.stdout} \n\n ${err.stderr} \n\n ${err.message} \n\n`;
-  return err;
-}
+const setupProc = require('./process')
 
 const setupApphub = (opt) => {
 
-  const opts = opt
-  const exec = opts.bin
-  
-  const commonExec = async (args, onReady) => {
-    const { execa } = await import("execa")
-
-    if (exec == null) {
-      throw new Error('No executable specified');
-    }
-
-    try {
-      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
-
-      const { stdout, stderr } = await execa(exec, args, {
-        // env: this.env
-      })
-
-      logger.error(`[apphub] ${stderr.toString()}`);
-      logger.info(`[apphub] ${stdout.toString()}`);
-
-      if (onReady != null) {
-        onReady(stdout);
-      }
-
-    } catch(ex) {
-      translateError(ex);
-      throw ex;
-    }
-  }
-
-  const commonExecBe = async (args, onReady) => {
-    const { execa } = await import("execa")
-
-    const funcall = new Promise((resolve, reject) => {
-      if (exec == null) {
-        return reject(new Error('No executable specified'));
-      }
-
-      logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
-
-      const subprocess = execa(exec, args, {
-        // env: this.env
-      })
-
-      const { stdout, stderr } = subprocess;
-
-      if (stderr == null) {
-        throw new Error('stderr was not defined on subprocess');
-      }
-
-      if (stdout == null) {
-        throw new Error('stdout was not defined on subprocess');
-      }
-
-      stderr.on('data', data => {
-        logger.error(`[apphub] ${data.toString()}`);
-      })
-      stdout.on('data', data => {
-        logger.info(`[apphub] ${data.toString()}`);
-      })
-
-      if (onReady != null) {
-        stdout.on('data', onReady);
-      }
-      subprocess.catch(err => reject(translateError(err)));
-      subprocess.on('exit', () => {
-        stderr.removeAllListeners();
-        stdout.removeAllListeners();
-
-        resolve("");
-      })
-    })
-
-    return await funcall;
-  }
+  const task = setupProc(opt, { name: 'apphub' });
 
   const running_id = async () => {
     const args = ["running_id", "--json=true"];
@@ -97,7 +18,7 @@ const setupApphub = (opt) => {
       }
     }
 
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return ck_status;
   }
@@ -114,7 +35,7 @@ const setupApphub = (opt) => {
       }
     }
     
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return ck_status;
   }
@@ -168,7 +89,7 @@ const setupApphub = (opt) => {
       }
     }
     
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return ck_status;
   }
@@ -187,14 +108,14 @@ const setupApphub = (opt) => {
       }
     }
     
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
 
     return isInstall;
   }
 
   const remove = async () => {
     const args = ['service', 'remove'];
-    await commonExec(args, null);
+    await task.commonExec(args, null);
   }
 
   const killApp = async () => {
@@ -202,40 +123,16 @@ const setupApphub = (opt) => {
       return;
     }
 
+    const killTask = setupProc({ bin: 'taskkill.exe' }, { name: 'kill' });
+
     const args = ['/f', '/im', 'gaganode.exe'];
 
-    const { execa } = await import("execa")
-
-    const process = execa('taskkill.exe', args, {
-      // env: this.env
-    })
-
-    const { stdout, stderr } = process;
-
-    if (stderr == null) {
-      throw new Error('stderr was not defined on subprocess');
-    }
-
-    if (stdout == null) {
-      throw new Error('stderr was not defined on subprocess');
-    }
-
-    stderr.on('data', data => {
-      logger.error(`[kill] ${data.toString()}`);
-    })
-    stdout.on('data', data => {
-      logger.info(`[kill] ${data.toString()}`);
-    })
-
-    process.on('exit', () => {
-      stderr.removeAllListeners();
-      stdout.removeAllListeners();
-    })
+    await killTask.commonExec(args, null);
   }
 
   const daemonStart = async () => {
     const args = ['service', 'start'];
-    await commonExec(args, null);
+    await task.commonExec(args, null);
   }
 
   const restartApp = async (handle) => {
@@ -245,7 +142,7 @@ const setupApphub = (opt) => {
       handle(data.toString());
     }
 
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
   }
 
   const statusApp = async (handle) => {
@@ -255,7 +152,7 @@ const setupApphub = (opt) => {
       handle(data.toString());
     }
   
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
   }
 
   const healthApp = async (handle) => {
@@ -265,7 +162,7 @@ const setupApphub = (opt) => {
       handle(data.toString());
     }
   
-    await commonExec(args, readyHandler);
+    await task.commonExec(args, readyHandler);
   }
 
   return {
