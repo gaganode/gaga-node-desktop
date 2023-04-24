@@ -7,6 +7,7 @@ import Modal from "@/components/core/modal/modal.vue";
 import logo from "@/assets/logo.png";
 
 import { onMounted, ref } from 'vue'
+
 const { ipcRenderer, shell } = window.require('electron');
 
 let token_value = ref("LOADING");
@@ -102,7 +103,6 @@ const openLink = (link) => {
                     <span class="ml-3 text-xs flex-inline text-gray-600">{{ tag_w_msg }}</span>
                 </div>
             </div>
-              <!-- <p class="mt-3">{{ tag_w_msg }}</p> -->
             </div>
           </template>
         </Modal>
@@ -159,8 +159,13 @@ const openLink = (link) => {
 
                 <div class="pt-5 lg:grid lg:grid-cols-10 lg:gap-4">
                     <div>
-                        <button type="button" class="btn-success sm mt-2" @click="onRestart">
-                            <PlayIcon class="prefix-icon"/>Restart
+                        <button type="button" class="btn-success sm mt-2" :disabled="is_restarting" @click="onRestart">
+                            <div v-if="!is_restarting" class="flex">
+                                <PlayIcon class="prefix-icon"/>Restart
+                            </div>
+                            <div v-if="is_restarting" class="flex">
+                                <InformationCircleIcon class="prefix-icon"/>Loading
+                            </div>
                         </button>
                     </div>
                     <div class="lg:col-span-9 mt-2">
