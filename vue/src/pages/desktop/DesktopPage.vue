@@ -84,10 +84,9 @@ const openLink = (link) => {
             </div>
           </template>
           <template v-slot:cover>
-            <div class="ml-2 mt-5">
-                <label>Initilizing</label>
-                <div class="relative">
-                    <div class="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 absolute bg-gray-100 border border-gray-200 shadow text-black rounded py-2 px-5 flex">
+            <div class="h-full">
+                <div class="relative h-full">
+                    <div class="relative text-black rounded h-full items-center justify-center flex">
                     <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 animate animate-spin">
                         <circle cx="12" cy="12" r="10" class="stroke-slate-300" stroke-width="4" />
                         <path d="M12 22C14.6522 22 17.1957 20.9464 19.0711 19.0711C20.9464 17.1957 22 14.6522 22 12C22 9.34784 20.9464 6.8043 19.0711 4.92893C17.1957 3.05357 14.6522 2 12 2" class="stroke-indigo-500" stroke-width="4" />
