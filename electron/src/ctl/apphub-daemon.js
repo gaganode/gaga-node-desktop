@@ -127,7 +127,8 @@ const setupApphub = (opt) => {
 
     const args = ['/f', '/im', 'gaganode.exe'];
 
-    await killTask.commonExec(args, null);
+    // not wait or it stuck here
+    killTask.commonExec(args, null);
   }
 
   const daemonStart = async () => {
