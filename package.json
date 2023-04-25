@@ -12,8 +12,10 @@
     "vue:build": "vite build --config vue/vite.config.js",
     "vue:preview": "vite preview --config vue/vite.config.js",
     "electron:start": "NODE_ENV=dev electron .",
-    "electron:build:mac": "electron-builder -m",
-    "electron:build:win": "electron-builder -w",
+    "electron:build:mac:x64": "electron-builder -m --x64",
+    "electron:build:mac:arm64": "electron-builder -m --arm64",
+    "electron:build:win:x64": "electron-builder -w --x64",
+    "electron:build:win:arm64": "electron-builder -w --arm64",
     "clean": "shx rm -rf vue/dist && shx rm -rf release"
   },
   "dependencies": {
