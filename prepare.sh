@@ -222,6 +222,7 @@ app-linux-arm32.tar.gz
 apphub-darwin-amd64.tar.gz
 apphub-windows-386.tar.gz
 apphub-windows-amd64.tar.gz
+apphub-windows-arm64.tar.gz
 apphub-linux-386.tar.gz
 apphub-linux-amd64.tar.gz
 apphub-linux-arm64.tar.gz
