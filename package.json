@@ -6,7 +6,8 @@
   "type": "commonjs",
   "main": "electron/src/main.js",
   "scripts": {
-    "prepare:dev": "bash prepare.sh -OS darwin -ARCH amd64",
+    "download_apphub:mac": "bash prepare.sh -OS darwin -ARCH amd64",
+    "download_apphub:win": "bash prepare.sh -OS windows -ARCH amd64",
     "vue:dev": "vite --config vue/vite.config.js",
     "vue:build": "vite build --config vue/vite.config.js",
     "vue:preview": "vite preview --config vue/vite.config.js",
