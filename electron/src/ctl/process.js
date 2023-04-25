@@ -27,8 +27,11 @@ const setupProcess = (params, options) => {
         // env: this.env
       })
 
-      logger.error(`${tags} ${stderr.toString()}`);
-      logger.info(`${tags} ${stdout.toString()}`);
+      if (stderr)
+        logger.error(`${tags} ${stderr.toString()}`);
+      
+      if (stdout)
+        logger.info(`${tags} ${stdout.toString()}`);
 
       if (onReady != null) {
         onReady(stdout);
