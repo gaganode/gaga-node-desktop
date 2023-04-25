@@ -12,12 +12,14 @@ const setupProcess = (params, options) => {
   const { name } = options;
   const tags = name ? `[${name}]` : "";
 
-  const commonExec = async (args, onReady) => {
+  logger.debug(`${tags} task setup`);
 
+  const commonExec = async (args, onReady) => {
     if (exec == null) {
       throw new Error('No executable specified');
     }
 
+    // important: asar on will cause import stuck
     const { execaSync } = await import("execa");
 
     try {
@@ -29,7 +31,7 @@ const setupProcess = (params, options) => {
 
       if (stderr)
         logger.error(`${tags} ${stderr.toString()}`);
-      
+
       if (stdout)
         logger.info(`${tags} ${stdout.toString()}`);
 
@@ -37,7 +39,7 @@ const setupProcess = (params, options) => {
         onReady(stdout);
       }
 
-    } catch(ex) {
+    } catch (ex) {
       translateError(ex);
       throw ex;
     }
@@ -52,6 +54,7 @@ const setupProcess = (params, options) => {
     const { execa } = await import("execa");
 
     const funcall = new Promise((resolve, reject) => {
+      // important: asar on will cause import stuck
       logger.debug(`[CMD] ${exec} ${args.join(" ")}`);
 
       const subprocess = execa(exec, args, {
@@ -89,7 +92,10 @@ const setupProcess = (params, options) => {
     await funcall;
   }
 
+  logger.debug(`${tags} task setup finish`);
+
   return {
+    exec,
     commonExec,
     commonExecAsync,
   }

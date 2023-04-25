@@ -2,6 +2,7 @@ const logger = require('../common/logger')
 const setupProc = require('./process')
 
 const setupGagaCtl = (opt) => {
+  logger.debug(`[apphub] setup Gaga Ctl begin`);
 
   const task = setupProc(opt, { name: 'GagaTask' });
 

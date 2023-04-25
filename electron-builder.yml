@@ -17,7 +17,7 @@ directories:
   buildResources: electron/resource/build
   output: release
 
-asar: true
+asar: false
 
 afterSign: 'pkgs/mac/notarize.js'
 

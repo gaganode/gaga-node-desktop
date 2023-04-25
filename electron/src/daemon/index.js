@@ -1,6 +1,5 @@
-const { app, ipcMain } = require('electron');
-const { join } = require('path');
-const logger = require('../common/logger');
+const { app, ipcMain } = require('electron')
+const logger = require('../common/logger')
 
 const {
   setupApphub,
@@ -11,9 +10,11 @@ const {
   getConfigDaemonApp,
   getLogDaemonApp,
   checkNodedExist,
-} = require('./daemon');
+} = require('./daemon')
 
 const setupBackend = async (ctx) => {
+  logger.debug(`[backend] setup begin`);
+
   let noded = null;
   let status = null;
 
@@ -64,9 +65,13 @@ const setupBackend = async (ctx) => {
 
   app.on('before-quit', async () => {
   });
+
+  logger.debug(`[backend] setup end`);
 }
 
 const setupDaemon = async (ctx) => {
+  logger.debug('[daemon] starting');
+
   await setupBackend(ctx);
 
   ipcMain.on('isAppReady', async (event) => {
@@ -104,8 +109,10 @@ const setupDaemon = async (ctx) => {
     logger.debug(`[apphub] setTimeout myFunc`);
     await getLogDaemonApp(ctx);
   };
-  
+
   setInterval(myFunc, 3000);
+
+  logger.debug('[daemon] started');
 }
 
 module.exports = setupDaemon;
