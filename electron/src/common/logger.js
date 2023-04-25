@@ -3,11 +3,12 @@ const { join } = require('path')
 const { app } = require('electron')
 
 const { combine, splat, timestamp, printf } = format
-const logsPath = app.getPath('userData')
+const logsDir = app.getPath('userData')
+const logsFilePath = join(logsDir, 'combined.log')
 
 const errorFile = new transports.File({
   level: 'error',
-  filename: join(logsPath, 'error.log')
+  filename: join(logsDir, 'error.log')
 })
 
 errorFile.on('finish', () => {
@@ -28,12 +29,12 @@ const logger = createLogger({
     errorFile,
     new transports.File({
       level: 'debug',
-      filename: join(logsPath, 'combined.log')
+      filename: join(logsDir, 'combined.log')
     })
   ]
 })
 
-logger.info(`[meta] logs can be found on ${logsPath}`)
+logger.info(`[meta] logs can be found on ${logsDir}`)
 
 module.exports = Object.freeze({
   start: (msg, opts = {}) => {
@@ -68,5 +69,6 @@ module.exports = Object.freeze({
     }
   },
 
-  logsPath,
+  logsDir,
+  logsFilePath,
 })
