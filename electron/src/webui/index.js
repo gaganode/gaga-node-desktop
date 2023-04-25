@@ -1,8 +1,8 @@
-const { app, BrowserWindow } = require('electron');
-const serve = require('electron-serve');
-const isDev = require('electron-is-dev');
-const path = require('path');
-const logger = require('../common/logger');
+const { app, BrowserWindow } = require('electron')
+const serve = require('electron-serve')
+const isDev = require('electron-is-dev')
+const path = require('path')
+const logger = require('../common/logger')
 
 let loadURL;
 if (!isDev) {
@@ -63,14 +63,13 @@ const createWindow = async () => {
     mainWindow.removeAllListeners('close');
   });
 
-  // ctx.store.set('apiToken', ''),
   return mainWindow;
 };
 
 const setupWebUI = async (ctx) => {
   ctx.webui = await createWindow();
 
-  const sendGUIView = (msg) => ctx.webui.webContents.send('infoout', msg)
+  const sendGUIView = (msg) => ctx.webui.webContents.send('infoOut', msg)
   ctx.sendGUIView = sendGUIView;
 
   const appReady = (msg) => ctx.webui.webContents.send('appReady', msg)

@@ -50,8 +50,7 @@ const setupTray = (ctx) => {
   }
 
   if (!IS_MAC) {
-    // Show the context menu on left click on other
-    // platforms than macOS.
+    // Show the context menu on left click on other platforms than macOS.
     tray.on('click', popupMenu);
   }
 

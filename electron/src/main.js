@@ -1,5 +1,5 @@
-const { app } = require('electron');
-const logger = require('./common/logger');
+const { app } = require('electron')
+const logger = require('./common/logger')
 
 if (!app.requestSingleInstanceLock()) {
   app.quit();
