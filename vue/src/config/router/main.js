@@ -1,7 +1,7 @@
 export default [
   {
     path: "/",
-    name: "desktop",
+    name: "home",
     component: () => import("../../pages/desktop/DesktopPage.vue"),
   },
   {
