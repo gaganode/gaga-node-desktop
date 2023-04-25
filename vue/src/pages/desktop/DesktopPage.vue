@@ -42,7 +42,7 @@ onMounted(()=> {
         }
     });
 
-    ipcRenderer.on('infoout', (event, data) => {
+    ipcRenderer.on('infoOut', (event, data) => {
         if (!is_restarting.value) {
             msg_value.value = data.toString();
         }
