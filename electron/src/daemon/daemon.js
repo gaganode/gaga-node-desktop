@@ -30,19 +30,22 @@ function sleep(ms) {
 }
 
 async function setupApphub(ctx) {
+  logger.debug(`[apphub] setup begin`);
+
   const noded = newNoded();
 
   await checkNodedInst(noded);
 
   await startNoded(ctx, noded);
 
+  logger.debug(`[apphub] setup end`);
   return noded;
 }
 
 function newNoded() {
   const bin = getDaemonBinPath();
 
-  const noded = Ctl.newCtl({
+  const noded = Ctl.appCtl({
     bin: bin,
   });
 
@@ -102,6 +105,8 @@ function nodedPathExist(ctx, appBin) {
 }
 
 async function startNoded(ctx, noded) {
+  logger.debug(`[apphub] startNoded begin`);
+
   const guiView = (msg) => {
     ctx.appReady(msg);
   };

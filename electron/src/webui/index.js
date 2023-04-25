@@ -67,6 +67,8 @@ const createWindow = async () => {
 };
 
 const setupWebUI = async (ctx) => {
+  logger.debug('[webui] starting');
+
   ctx.webui = await createWindow();
 
   const sendGUIView = (msg) => ctx.webui.webContents.send('infoOut', msg)
@@ -74,6 +76,8 @@ const setupWebUI = async (ctx) => {
 
   const appReady = (msg) => ctx.webui.webContents.send('appReady', msg)
   ctx.appReady = appReady;
+
+  logger.debug('[webui] started');
 }
 
 module.exports = setupWebUI;

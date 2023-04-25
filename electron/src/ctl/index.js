@@ -1,5 +1,5 @@
-const setupApphub = require('./apphub-daemon')
+const setupApphubCtl = require('./apphub-daemon')
 const setupGagaCtl = require('./gaga-daemon')
 
-module.exports.newCtl = setupApphub
+module.exports.appCtl = setupApphubCtl
 module.exports.gagaCtl = setupGagaCtl

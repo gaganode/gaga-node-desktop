@@ -2,8 +2,7 @@ const logger = require('../common/logger')
 const { IS_WIN } = require('../common/consts')
 const setupProc = require('./process')
 
-const setupApphub = (opt) => {
-
+const setupApphubCtl = (opt) => {
   const task = setupProc(opt, { name: 'apphub' });
 
   const running_id = async () => {
@@ -166,6 +165,8 @@ const setupApphub = (opt) => {
     await task.commonExec(args, readyHandler);
   }
 
+  logger.debug(`[apphub] setup Apphub Ctl end`);
+
   return {
     running_id,
     local_id,
@@ -177,7 +178,7 @@ const setupApphub = (opt) => {
     restartApp,
     statusApp,
     healthApp
-  }
+  };
 }
 
-module.exports = setupApphub;
+module.exports = setupApphubCtl;
