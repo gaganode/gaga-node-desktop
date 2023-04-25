@@ -1,6 +1,19 @@
 const os = require('os')
+const isDev = require('electron-is-dev')
 const packageJson = require('../../../package.json')
 const path = require('path')
+
+const getExtraResBase = () => {
+  if (isDev) {
+    return path.join(__dirname, '..', '..', '..');
+  } else {
+    return path.join(process.resourcesPath, 'static');
+  }
+}
+
+const getExtraAppBase = () => {
+  return path.join(getExtraResBase(), 'bin')
+}
 
 module.exports = Object.freeze({
   IS_MAC: os.platform() === 'darwin',
@@ -8,6 +21,6 @@ module.exports = Object.freeze({
   IS_APPIMAGE: typeof process.env.APPIMAGE !== 'undefined',
   VERSION: packageJson.version,
   ELECTRON_VERSION: process.versions.electron,
-  DEFAULT_BIN_PATH: path.join(__dirname, '..', '..', '..', 'bin'),
-  DEFAULT_APP_BIN_PATH: path.join(__dirname, '..', '..', '..', 'bin', 'apps'),
+  DEFAULT_BIN_PATH: path.join(getExtraAppBase()),
+  DEFAULT_APP_BIN_PATH: path.join(getExtraAppBase(), 'apps'),
 })

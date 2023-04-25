@@ -3,17 +3,21 @@ productName: Gaganode Desktop
 
 files:
   - filter:
-    - bin/apphub*
-    - bin/root_conf/**/*
     - electron/**/*
     - vue/dist/**/*
     - node_modules/**/*
+
+extraResources:
+  - to: static
+    filter:
+      - bin/apphub*
+      - bin/root_conf/**/*
 
 directories:
   buildResources: electron/resource/build
   output: release
 
-asar: false
+asar: true
 
 afterSign: 'pkgs/mac/notarize.js'
 
