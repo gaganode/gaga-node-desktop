@@ -27,9 +27,6 @@ const buildMenu = (ctx) => {
   ]);
 }
 
-const on = 'on';
-const off = 'off';
-
 // Ok this one is pretty ridiculous:
 // Tray must be global or it will break due to GC:
 // https://www.electronjs.org/docs/faq#my-apps-tray-disappeared-after-a-few-minutes
@@ -38,7 +35,7 @@ let tray = null;
 const setupTray = (ctx) => {
   logger.debug('[tray] starting');
 
-  tray = new Tray(icon(on));
+  tray = new Tray(icon('on'));
   let menu = null;
 
   const popupMenu = (event) => {
